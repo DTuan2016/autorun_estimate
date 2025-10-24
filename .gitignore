@@ -1,0 +1,8 @@
+results*
+run_accuracy/
+
+/home/dongtv/dtuan/autorun/perf.data
+/home/dongtv/dtuan/autorun/perf.data.old
+/home/dongtv/dtuan/autorun/results_log.csv
+
+perf.data*

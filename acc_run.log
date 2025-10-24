@@ -1,0 +1,1055 @@
+[2025-10-13 13:16:07] === === RUN 1/5 (randforest, param=10) ===
+[2025-10-13 13:16:07] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:16:09] [DEBUG] Calling tcpreplay API at http://192.168.101.238:20168/run_acc...
+[2025-10-13 13:16:09] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:16:09] [INFO] [XDP_STATS] Started (PID=3453383)
+[2025-10-13 13:16:09] [ERROR] Failed to call API: HTTPConnectionPool(host='192.168.101.238', port=20168): Max retries exceeded with url: /run_acc (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7157b6f01290>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[2025-10-13 13:16:11] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:16:19] === === RUN 1/5 (randforest, param=10) ===
+[2025-10-13 13:16:19] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:16:19] [DEBUG] Calling tcpreplay API at http://192.168.101.238:20168/run_acc...
+[2025-10-13 13:16:19] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:16:19] [INFO] [XDP_STATS] Started (PID=3453610)
+[2025-10-13 13:16:19] [INFO] API OK -> {'message': 'Started tcpreplay for accuracy test (limit=10000 packets)', 'status': 'ok'}
+[2025-10-13 13:17:06] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:17:07] === === RUN 1/5 (randforest, param=10) ===
+[2025-10-13 13:17:07] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:17:07] [DEBUG] Calling tcpreplay API at http://192.168.101.238:20168/run_acc...
+[2025-10-13 13:17:07] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:17:07] [INFO] [XDP_STATS] Started (PID=3454476)
+[2025-10-13 13:17:07] [ERROR] Failed to call API: HTTPConnectionPool(host='192.168.101.238', port=20168): Max retries exceeded with url: /run_acc (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7b6de059a390>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[2025-10-13 13:17:13] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:17:14] === === RUN 1/5 (randforest, param=10) ===
+[2025-10-13 13:17:14] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:17:14] [DEBUG] Calling tcpreplay API at http://192.168.101.238:20168/run_acc...
+[2025-10-13 13:17:14] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:17:14] [INFO] [XDP_STATS] Started (PID=3454663)
+[2025-10-13 13:17:14] [INFO] API OK -> {'message': 'Started tcpreplay for accuracy test (limit=10000 packets)', 'status': 'ok'}
+[2025-10-13 13:23:40] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:25:08] === === RUN 1/5 (randforest, param=10) ===
+[2025-10-13 13:25:08] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:25:08] [DEBUG] Calling tcpreplay API at http://192.168.101.238:20168/run_acc...
+[2025-10-13 13:25:08] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:25:08] [INFO] [XDP_STATS] Started (PID=3462644)
+[2025-10-13 13:25:08] [INFO] API OK -> {'message': 'Started tcpreplay for accuracy test (limit=10000 packets)', 'status': 'ok'}
+[2025-10-13 13:25:36] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:28:50] === === RUN 1/5 (randforest, param=10) ===
+[2025-10-13 13:28:50] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:28:50] [DEBUG] Calling tcpreplay API at http://192.168.101.238:20168/run_acc...
+[2025-10-13 13:28:50] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:28:50] [INFO] [XDP_STATS] Started (PID=3466439)
+[2025-10-13 13:28:50] [INFO] API OK -> {'exit_code': 255, 'status': 'error', 'stderr': '\nFailed: From replay.c:replay_file() line 129:\nError opening pcap file: pcap/data_portmap1.pcap: No such file or directory\n\n', 'stdout': ''}
+[2025-10-13 13:29:26] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:29:27] === === RUN 1/5 (randforest, param=10) ===
+[2025-10-13 13:29:27] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:29:27] [DEBUG] Calling tcpreplay API at http://192.168.101.238:20168/run_acc...
+[2025-10-13 13:29:27] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:29:27] [INFO] [XDP_STATS] Started (PID=3467090)
+[2025-10-13 13:30:05] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:30:07] === === RUN 1/5 (randforest, param=10) ===
+[2025-10-13 13:30:07] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:30:07] [DEBUG] Calling tcpreplay API at http://192.168.101.238:20168/run_acc...
+[2025-10-13 13:30:07] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:30:07] [INFO] [XDP_STATS] Started (PID=3467809)
+[2025-10-13 13:31:24] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:32:24] === === RUN 1/5 (randforest, param=10) ===
+[2025-10-13 13:32:24] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:32:24] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:32:24] [INFO] [XDP_STATS] Started (PID=3470112)
+[2025-10-13 13:32:25] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:32:28] === === RUN 1/5 (randforest, param=10) ===
+[2025-10-13 13:32:28] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:32:28] [ERROR] Command failed (Load XDP program): Command '['sudo', 'xdp-loader', 'load', 'eno3', '-m', 'skb', '-n', 'xdp_anomaly_detector', '-p', '/sys/fs/bpf/eno3', '/home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o']' returned non-zero exit status 249.
+[2025-10-13 13:33:20] === === RUN 1/5 (randforest, param=10) ===
+[2025-10-13 13:33:20] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:33:20] [ERROR] Command failed (Load XDP program): Command '['sudo', 'xdp-loader', 'load', 'eno3', '-m', 'skb', '-n', 'xdp_anomaly_detector', '-p', '/sys/fs/bpf/eno3', '/home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o']' returned non-zero exit status 249.
+[2025-10-13 13:37:10] === === RUN 1/5 (randforest, param=10) ===
+[2025-10-13 13:37:10] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:37:10] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:37:10] [INFO] [XDP_STATS] Started (PID=3475204)
+[2025-10-13 13:37:20] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:38:17] === === RUN 1/5 (randforest, param=10) ===
+[2025-10-13 13:38:17] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:38:17] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:38:17] [INFO] [XDP_STATS] Started (PID=3476321)
+[2025-10-13 13:39:41] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:39:42] === === RUN 1/5 (randforest, param=10) ===
+[2025-10-13 13:39:42] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:39:42] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:39:42] [INFO] [XDP_STATS] Started (PID=3477763)
+[2025-10-13 13:40:15] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:41:52] === === RUN 1/5 (randforest, param=10) ===
+[2025-10-13 13:41:52] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:41:52] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:41:52] [INFO] [XDP_STATS] Started (PID=3479930)
+[2025-10-13 13:41:54] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:42:05] === === RUN 1/5 (randforest, param=10) ===
+[2025-10-13 13:42:05] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:42:05] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:42:05] [INFO] [XDP_STATS] Started (PID=3480183)
+[2025-10-13 13:44:37] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:44:40] === === RUN 1/5 (randforest, param=10) ===
+[2025-10-13 13:44:40] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:44:40] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:44:40] [INFO] [XDP_STATS] Started (PID=3482800)
+[2025-10-13 13:44:50] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:44:50] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_1.csv
+[2025-10-13 13:48:02] === === RUN 1/5 (randforest, param=10) ===
+[2025-10-13 13:48:02] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:48:02] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:48:02] [INFO] [XDP_STATS] Started (PID=3486200)
+[2025-10-13 13:48:12] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:48:12] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_1.csv
+[2025-10-13 13:48:12] [DEBUG] Dump XDP map to CSV: sudo ./dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_1.csv
+[2025-10-13 13:48:12] [WARN]   sudo: ./dump_map_to_csv: command not found
+[2025-10-13 13:50:09] === === RUN 1/5 (randforest, param=10) ===
+[2025-10-13 13:50:09] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:50:09] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:50:09] [INFO] [XDP_STATS] Started (PID=3488523)
+[2025-10-13 13:50:19] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:50:19] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_1.csv
+[2025-10-13 13:50:19] [DEBUG] Dump XDP map to CSV: sudo ./dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_1.csv
+[2025-10-13 13:50:19] [WARN]   sudo: ./dump_map_to_csv: command not found
+[2025-10-13 13:50:21] [ERROR] File dự đoán không tồn tại: /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_1.csv
+[2025-10-13 13:50:21] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-13 13:50:23] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-13 13:50:23] [INFO] Completed run 1/5
+[2025-10-13 13:50:23] === === RUN 2/5 (randforest, param=10) ===
+[2025-10-13 13:51:35] === === RUN 1/5 (randforest, param=10) ===
+[2025-10-13 13:51:35] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:51:35] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:51:35] [INFO] [XDP_STATS] Started (PID=3490072)
+[2025-10-13 13:51:45] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:51:45] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_1.csv
+[2025-10-13 13:51:45] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_1.csv
+[2025-10-13 13:51:45] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-13 13:51:45] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_1.csv
+[2025-10-13 13:51:47] [INFO] [EVAL] Matched flows: 17
+[2025-10-13 13:51:47] [INFO] [EVAL] Accuracy : 0.7647
+[2025-10-13 13:51:47] [INFO] [EVAL] Precision: 0.9286
+[2025-10-13 13:51:47] [INFO] [EVAL] Recall   : 0.8125
+[2025-10-13 13:51:47] [INFO] [EVAL] F1-score : 0.8667
+[2025-10-13 13:51:47] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-13 13:51:47] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-13 13:51:49] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-13 13:51:49] [INFO] Completed run 1/5
+[2025-10-13 13:51:49] === === RUN 2/5 (randforest, param=10) ===
+[2025-10-13 13:53:27] === === RUN 1/5 (randforest, param=10) ===
+[2025-10-13 13:53:27] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:53:27] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:53:27] [INFO] [XDP_STATS] Started (PID=3492091)
+[2025-10-13 13:53:37] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:53:37] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_1.csv
+[2025-10-13 13:53:37] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_1.csv
+[2025-10-13 13:53:37] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-13 13:53:37] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_1.csv
+[2025-10-13 13:53:39] [INFO] [EVAL] Matched flows: 17
+[2025-10-13 13:53:39] [INFO] [EVAL] Accuracy : 0.7647
+[2025-10-13 13:53:39] [INFO] [EVAL] Precision: 0.9286
+[2025-10-13 13:53:39] [INFO] [EVAL] Recall   : 0.8125
+[2025-10-13 13:53:39] [INFO] [EVAL] F1-score : 0.8667
+[2025-10-13 13:53:39] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-13 13:53:39] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-13 13:53:41] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-13 13:53:41] [INFO] Completed run 1/5
+[2025-10-13 13:53:41] === === RUN 2/5 (randforest, param=10) ===
+[2025-10-13 13:53:41] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:53:41] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:53:41] [INFO] [XDP_STATS] Started (PID=3492433)
+[2025-10-13 13:53:51] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:53:51] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_2.csv
+[2025-10-13 13:53:51] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_2.csv
+[2025-10-13 13:53:51] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-13 13:53:51] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_2.csv
+[2025-10-13 13:53:51] [INFO] [EVAL] Matched flows: 17
+[2025-10-13 13:53:51] [INFO] [EVAL] Accuracy : 0.7647
+[2025-10-13 13:53:51] [INFO] [EVAL] Precision: 0.9286
+[2025-10-13 13:53:51] [INFO] [EVAL] Recall   : 0.8125
+[2025-10-13 13:53:51] [INFO] [EVAL] F1-score : 0.8667
+[2025-10-13 13:53:51] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-13 13:53:51] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-13 13:53:53] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-13 13:53:53] [INFO] Completed run 2/5
+[2025-10-13 13:53:53] === === RUN 3/5 (randforest, param=10) ===
+[2025-10-13 13:53:53] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:53:53] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:53:53] [INFO] [XDP_STATS] Started (PID=3492706)
+[2025-10-13 13:54:03] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:54:03] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_3.csv
+[2025-10-13 13:54:03] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_3.csv
+[2025-10-13 13:54:03] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-13 13:54:03] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_3.csv
+[2025-10-13 13:54:03] [INFO] [EVAL] Matched flows: 17
+[2025-10-13 13:54:03] [INFO] [EVAL] Accuracy : 0.7647
+[2025-10-13 13:54:03] [INFO] [EVAL] Precision: 0.9286
+[2025-10-13 13:54:03] [INFO] [EVAL] Recall   : 0.8125
+[2025-10-13 13:54:03] [INFO] [EVAL] F1-score : 0.8667
+[2025-10-13 13:54:03] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-13 13:54:03] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-13 13:54:05] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-13 13:54:05] [INFO] Completed run 3/5
+[2025-10-13 13:54:05] === === RUN 4/5 (randforest, param=10) ===
+[2025-10-13 13:54:05] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:54:05] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:54:05] [INFO] [XDP_STATS] Started (PID=3492991)
+[2025-10-13 13:54:15] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:54:16] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_4.csv
+[2025-10-13 13:54:16] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_4.csv
+[2025-10-13 13:54:16] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-13 13:54:16] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_4.csv
+[2025-10-13 13:54:16] [INFO] [EVAL] Matched flows: 17
+[2025-10-13 13:54:16] [INFO] [EVAL] Accuracy : 0.7647
+[2025-10-13 13:54:16] [INFO] [EVAL] Precision: 0.9286
+[2025-10-13 13:54:16] [INFO] [EVAL] Recall   : 0.8125
+[2025-10-13 13:54:16] [INFO] [EVAL] F1-score : 0.8667
+[2025-10-13 13:54:16] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-13 13:54:16] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-13 13:54:18] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-13 13:54:18] [INFO] Completed run 4/5
+[2025-10-13 13:54:18] === === RUN 5/5 (randforest, param=10) ===
+[2025-10-13 13:54:18] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:54:18] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:54:18] [INFO] [XDP_STATS] Started (PID=3493265)
+[2025-10-13 13:54:28] [INFO] [XDP_STATS] Finished.
+[2025-10-13 13:54:28] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_5.csv
+[2025-10-13 13:54:28] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_5.csv
+[2025-10-13 13:54:28] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-13 13:54:28] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_5.csv
+[2025-10-13 13:54:28] [INFO] [EVAL] Matched flows: 17
+[2025-10-13 13:54:28] [INFO] [EVAL] Accuracy : 0.7647
+[2025-10-13 13:54:28] [INFO] [EVAL] Precision: 0.9286
+[2025-10-13 13:54:28] [INFO] [EVAL] Recall   : 0.8125
+[2025-10-13 13:54:28] [INFO] [EVAL] F1-score : 0.8667
+[2025-10-13 13:54:28] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-13 13:54:28] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-13 13:54:30] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-13 13:54:30] [INFO] Completed run 5/5
+[2025-10-13 13:55:00] === === RUN 1/5 (randforest, param=10) ===
+[2025-10-13 13:55:00] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 13:55:00] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 13:55:00] [INFO] [XDP_STATS] Started (PID=3494042)
+[2025-10-13 14:04:10] [INFO] [XDP_STATS] Finished.
+[2025-10-13 14:04:10] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_1.csv
+[2025-10-13 14:04:10] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_1.csv
+[2025-10-13 14:04:10] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-13 14:04:10] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_1.csv
+[2025-10-13 14:04:12] [INFO] [EVAL] Matched flows: 334
+[2025-10-13 14:04:12] [INFO] [EVAL] Accuracy : 0.8234
+[2025-10-13 14:04:12] [INFO] [EVAL] Precision: 0.9286
+[2025-10-13 14:04:12] [INFO] [EVAL] Recall   : 0.8509
+[2025-10-13 14:04:12] [INFO] [EVAL] F1-score : 0.8880
+[2025-10-13 14:04:12] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-13 14:04:12] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-13 14:04:14] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-13 14:04:14] [INFO] Completed run 1/5
+[2025-10-13 14:04:14] === === RUN 2/5 (randforest, param=10) ===
+[2025-10-13 14:04:14] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 14:04:14] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 14:04:14] [INFO] [XDP_STATS] Started (PID=3503520)
+[2025-10-13 14:13:25] [INFO] [XDP_STATS] Finished.
+[2025-10-13 14:13:25] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_2.csv
+[2025-10-13 14:13:25] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_2.csv
+[2025-10-13 14:13:25] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-13 14:13:25] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_10_2.csv
+[2025-10-13 14:13:25] [INFO] [EVAL] Matched flows: 333
+[2025-10-13 14:13:25] [INFO] [EVAL] Accuracy : 0.7568
+[2025-10-13 14:13:25] [INFO] [EVAL] Precision: 0.9217
+[2025-10-13 14:13:25] [INFO] [EVAL] Recall   : 0.7709
+[2025-10-13 14:13:25] [INFO] [EVAL] F1-score : 0.8396
+[2025-10-13 14:13:25] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-13 14:13:25] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-13 14:13:27] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-13 14:13:27] [INFO] Completed run 2/5
+[2025-10-13 14:13:27] === === RUN 3/5 (randforest, param=10) ===
+[2025-10-13 14:13:27] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 14:13:27] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 14:13:27] [INFO] [XDP_STATS] Started (PID=3513071)
+[2025-10-13 14:15:59] [INFO] [XDP_STATS] Finished.
+[2025-10-13 14:16:12] === === RUN 1/5 (randforest, param=60) ===
+[2025-10-13 14:16:12] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 14:16:12] [ERROR] Command failed (Load XDP program): Command '['sudo', 'xdp-loader', 'load', 'eno3', '-m', 'skb', '-n', 'xdp_anomaly_detector', '-p', '/sys/fs/bpf/eno3', '/home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o']' returned non-zero exit status 234.
+[2025-10-13 14:16:16] === === RUN 1/5 (randforest, param=60) ===
+[2025-10-13 14:16:16] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 14:16:16] [ERROR] Command failed (Load XDP program): Command '['sudo', 'xdp-loader', 'load', 'eno3', '-m', 'skb', '-n', 'xdp_anomaly_detector', '-p', '/sys/fs/bpf/eno3', '/home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o']' returned non-zero exit status 234.
+[2025-10-13 14:16:19] === === RUN 1/5 (randforest, param=60) ===
+[2025-10-13 14:16:19] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 14:16:19] [ERROR] Command failed (Load XDP program): Command '['sudo', 'xdp-loader', 'load', 'eno3', '-m', 'skb', '-n', 'xdp_anomaly_detector', '-p', '/sys/fs/bpf/eno3', '/home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o']' returned non-zero exit status 234.
+[2025-10-13 14:16:20] === === RUN 1/5 (randforest, param=60) ===
+[2025-10-13 14:16:20] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 14:16:20] [ERROR] Command failed (Load XDP program): Command '['sudo', 'xdp-loader', 'load', 'eno3', '-m', 'skb', '-n', 'xdp_anomaly_detector', '-p', '/sys/fs/bpf/eno3', '/home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o']' returned non-zero exit status 234.
+[2025-10-13 14:16:21] === === RUN 1/5 (randforest, param=60) ===
+[2025-10-13 14:16:21] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 14:16:21] [ERROR] Command failed (Load XDP program): Command '['sudo', 'xdp-loader', 'load', 'eno3', '-m', 'skb', '-n', 'xdp_anomaly_detector', '-p', '/sys/fs/bpf/eno3', '/home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o']' returned non-zero exit status 234.
+[2025-10-13 14:16:22] === === RUN 1/5 (randforest, param=60) ===
+[2025-10-13 14:16:22] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 14:16:22] [ERROR] Command failed (Load XDP program): Command '['sudo', 'xdp-loader', 'load', 'eno3', '-m', 'skb', '-n', 'xdp_anomaly_detector', '-p', '/sys/fs/bpf/eno3', '/home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o']' returned non-zero exit status 234.
+[2025-10-13 14:16:30] === === RUN 1/5 (randforest, param=60) ===
+[2025-10-13 14:16:30] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 14:16:33] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 14:16:33] [INFO] [XDP_STATS] Started (PID=3516493)
+[2025-10-13 14:25:43] [INFO] [XDP_STATS] Finished.
+[2025-10-13 14:25:43] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-13 14:25:43] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-13 14:25:43] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-13 14:25:43] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-13 14:25:45] [INFO] [EVAL] Matched flows: 333
+[2025-10-13 14:25:45] [INFO] [EVAL] Accuracy : 0.7868
+[2025-10-13 14:25:45] [INFO] [EVAL] Precision: 0.9286
+[2025-10-13 14:25:45] [INFO] [EVAL] Recall   : 0.8036
+[2025-10-13 14:25:45] [INFO] [EVAL] F1-score : 0.8616
+[2025-10-13 14:25:45] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-13 14:25:45] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-13 14:25:47] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-13 14:25:47] [INFO] Completed run 1/5
+[2025-10-13 14:25:47] === === RUN 2/5 (randforest, param=60) ===
+[2025-10-13 14:25:47] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 14:25:49] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 14:25:49] [INFO] [XDP_STATS] Started (PID=3525797)
+[2025-10-13 14:35:00] [INFO] [XDP_STATS] Finished.
+[2025-10-13 14:35:00] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_2.csv
+[2025-10-13 14:35:00] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_2.csv
+[2025-10-13 14:35:00] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-13 14:35:00] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_2.csv
+[2025-10-13 14:35:00] [INFO] [EVAL] Matched flows: 333
+[2025-10-13 14:35:00] [INFO] [EVAL] Accuracy : 0.8288
+[2025-10-13 14:35:00] [INFO] [EVAL] Precision: 0.9291
+[2025-10-13 14:35:00] [INFO] [EVAL] Recall   : 0.8582
+[2025-10-13 14:35:00] [INFO] [EVAL] F1-score : 0.8922
+[2025-10-13 14:35:00] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-13 14:35:00] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-13 14:35:02] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-13 14:35:02] [INFO] Completed run 2/5
+[2025-10-13 14:35:02] === === RUN 3/5 (randforest, param=60) ===
+[2025-10-13 14:35:02] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 14:35:04] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 14:35:04] [INFO] [XDP_STATS] Started (PID=3535077)
+[2025-10-13 14:44:15] [INFO] [XDP_STATS] Finished.
+[2025-10-13 14:44:15] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_3.csv
+[2025-10-13 14:44:15] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_3.csv
+[2025-10-13 14:44:15] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-13 14:44:15] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_3.csv
+[2025-10-13 14:44:15] [INFO] [EVAL] Matched flows: 336
+[2025-10-13 14:44:15] [INFO] [EVAL] Accuracy : 0.8304
+[2025-10-13 14:44:15] [INFO] [EVAL] Precision: 0.9291
+[2025-10-13 14:44:15] [INFO] [EVAL] Recall   : 0.8582
+[2025-10-13 14:44:15] [INFO] [EVAL] F1-score : 0.8922
+[2025-10-13 14:44:15] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-13 14:44:15] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-13 14:44:17] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-13 14:44:17] [INFO] Completed run 3/5
+[2025-10-13 14:44:17] === === RUN 4/5 (randforest, param=60) ===
+[2025-10-13 14:44:17] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 14:44:19] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 14:44:19] [INFO] [XDP_STATS] Started (PID=3544333)
+[2025-10-13 14:53:30] [INFO] [XDP_STATS] Finished.
+[2025-10-13 14:53:30] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_4.csv
+[2025-10-13 14:53:30] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_4.csv
+[2025-10-13 14:53:30] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-13 14:53:30] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_4.csv
+[2025-10-13 14:53:30] [INFO] [EVAL] Matched flows: 334
+[2025-10-13 14:53:30] [INFO] [EVAL] Accuracy : 0.8263
+[2025-10-13 14:53:30] [INFO] [EVAL] Precision: 0.9289
+[2025-10-13 14:53:30] [INFO] [EVAL] Recall   : 0.8545
+[2025-10-13 14:53:30] [INFO] [EVAL] F1-score : 0.8902
+[2025-10-13 14:53:30] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-13 14:53:30] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-13 14:53:32] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-13 14:53:32] [INFO] Completed run 4/5
+[2025-10-13 14:53:32] === === RUN 5/5 (randforest, param=60) ===
+[2025-10-13 14:53:32] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 14:53:34] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 14:53:34] [INFO] [XDP_STATS] Started (PID=3553824)
+[2025-10-13 15:00:13] [INFO] [XDP_STATS] Finished.
+[2025-10-13 15:03:45] === === RUN 1/1 (randforest, param=60) ===
+[2025-10-13 15:03:45] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 15:03:48] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 15:03:48] [INFO] [XDP_STATS] Started (PID=3565521)
+[2025-10-13 15:12:58] [INFO] [XDP_STATS] Finished.
+[2025-10-13 15:12:58] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-13 15:12:58] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-13 15:12:58] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-13 15:12:58] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-13 15:13:00] [INFO] [EVAL] Matched flows: 333
+[2025-10-13 15:13:00] [INFO] [EVAL] Accuracy : 0.7868
+[2025-10-13 15:13:00] [INFO] [EVAL] Precision: 0.9286
+[2025-10-13 15:13:00] [INFO] [EVAL] Recall   : 0.8036
+[2025-10-13 15:13:00] [INFO] [EVAL] F1-score : 0.8616
+[2025-10-13 15:13:00] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-13 15:13:00] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-13 15:13:02] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-13 15:13:02] [INFO] Completed run 1/1
+[2025-10-13 15:21:04] === === RUN 1/1 (randforest, param=60) ===
+[2025-10-13 15:21:04] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 15:21:06] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 15:21:06] [INFO] [XDP_STATS] Started (PID=3583696)
+[2025-10-13 15:30:17] [INFO] [XDP_STATS] Finished.
+[2025-10-13 15:30:17] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-13 15:30:17] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-13 15:30:17] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-13 15:30:17] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-13 15:30:18] [INFO] [EVAL] Matched flows: 668
+[2025-10-13 15:30:18] [INFO] [EVAL] Accuracy : 0.8907
+[2025-10-13 15:30:18] [INFO] [EVAL] Precision: 0.9702
+[2025-10-13 15:30:18] [INFO] [EVAL] Recall   : 0.9080
+[2025-10-13 15:30:18] [INFO] [EVAL] F1-score : 0.9381
+[2025-10-13 15:30:18] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-13 15:30:18] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-13 15:30:20] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-13 15:30:20] [INFO] Completed run 1/1
+[2025-10-13 15:30:35] === === RUN 1/5 (randforest, param=60) ===
+[2025-10-13 15:30:35] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 15:30:37] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 15:30:37] [INFO] [XDP_STATS] Started (PID=3593266)
+[2025-10-13 15:39:48] [INFO] [XDP_STATS] Finished.
+[2025-10-13 15:39:48] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-13 15:39:48] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-13 15:39:48] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-13 15:39:48] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-13 15:39:49] [INFO] [EVAL] Matched flows: 669
+[2025-10-13 15:39:49] [INFO] [EVAL] Accuracy : 0.9148
+[2025-10-13 15:39:49] [INFO] [EVAL] Precision: 0.9694
+[2025-10-13 15:39:49] [INFO] [EVAL] Recall   : 0.9360
+[2025-10-13 15:39:49] [INFO] [EVAL] F1-score : 0.9524
+[2025-10-13 15:39:49] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-13 15:39:49] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-13 15:39:51] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-13 15:39:51] [INFO] Completed run 1/5
+[2025-10-13 15:39:51] === === RUN 2/5 (randforest, param=60) ===
+[2025-10-13 15:39:51] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 15:39:54] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 15:39:54] [INFO] [XDP_STATS] Started (PID=3601487)
+[2025-10-13 15:49:04] [INFO] [XDP_STATS] Finished.
+[2025-10-13 15:49:04] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_2.csv
+[2025-10-13 15:49:04] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_2.csv
+[2025-10-13 15:49:04] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-13 15:49:04] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_2.csv
+[2025-10-13 15:49:04] [INFO] [EVAL] Matched flows: 668
+[2025-10-13 15:49:04] [INFO] [EVAL] Accuracy : 0.9132
+[2025-10-13 15:49:04] [INFO] [EVAL] Precision: 0.9693
+[2025-10-13 15:49:04] [INFO] [EVAL] Recall   : 0.9343
+[2025-10-13 15:49:04] [INFO] [EVAL] F1-score : 0.9515
+[2025-10-13 15:49:04] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-13 15:49:04] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-13 15:49:06] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-13 15:49:06] [INFO] Completed run 2/5
+[2025-10-13 15:49:06] === === RUN 3/5 (randforest, param=60) ===
+[2025-10-13 15:49:06] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 15:49:08] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 15:49:08] [INFO] [XDP_STATS] Started (PID=3608922)
+[2025-10-13 15:58:19] [INFO] [XDP_STATS] Finished.
+[2025-10-13 15:58:19] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_3.csv
+[2025-10-13 15:58:19] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_3.csv
+[2025-10-13 15:58:19] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-13 15:58:19] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_3.csv
+[2025-10-13 15:58:19] [INFO] [EVAL] Matched flows: 668
+[2025-10-13 15:58:19] [INFO] [EVAL] Accuracy : 0.9102
+[2025-10-13 15:58:19] [INFO] [EVAL] Precision: 0.9692
+[2025-10-13 15:58:19] [INFO] [EVAL] Recall   : 0.9310
+[2025-10-13 15:58:19] [INFO] [EVAL] F1-score : 0.9497
+[2025-10-13 15:58:19] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-13 15:58:19] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-13 15:58:21] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-13 15:58:21] [INFO] Completed run 3/5
+[2025-10-13 15:58:21] === === RUN 4/5 (randforest, param=60) ===
+[2025-10-13 15:58:21] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 15:58:23] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 15:58:23] [INFO] [XDP_STATS] Started (PID=3618248)
+[2025-10-13 16:07:34] [INFO] [XDP_STATS] Finished.
+[2025-10-13 16:07:34] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_4.csv
+[2025-10-13 16:07:34] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_4.csv
+[2025-10-13 16:07:34] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-13 16:07:34] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_4.csv
+[2025-10-13 16:07:34] [INFO] [EVAL] Matched flows: 668
+[2025-10-13 16:07:34] [INFO] [EVAL] Accuracy : 0.9132
+[2025-10-13 16:07:34] [INFO] [EVAL] Precision: 0.9693
+[2025-10-13 16:07:34] [INFO] [EVAL] Recall   : 0.9343
+[2025-10-13 16:07:34] [INFO] [EVAL] F1-score : 0.9515
+[2025-10-13 16:07:34] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-13 16:07:34] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-13 16:07:36] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-13 16:07:36] [INFO] Completed run 4/5
+[2025-10-13 16:07:36] === === RUN 5/5 (randforest, param=60) ===
+[2025-10-13 16:07:36] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 16:07:38] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 16:07:38] [INFO] [XDP_STATS] Started (PID=3627471)
+[2025-10-13 16:16:48] [INFO] [XDP_STATS] Finished.
+[2025-10-13 16:16:48] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_5.csv
+[2025-10-13 16:16:48] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_5.csv
+[2025-10-13 16:16:48] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-13 16:16:48] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_5.csv
+[2025-10-13 16:16:48] [INFO] [EVAL] Matched flows: 668
+[2025-10-13 16:16:48] [INFO] [EVAL] Accuracy : 0.9132
+[2025-10-13 16:16:48] [INFO] [EVAL] Precision: 0.9693
+[2025-10-13 16:16:48] [INFO] [EVAL] Recall   : 0.9343
+[2025-10-13 16:16:48] [INFO] [EVAL] F1-score : 0.9515
+[2025-10-13 16:16:48] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-13 16:16:48] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-13 16:16:51] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-13 16:16:51] [INFO] Completed run 5/5
+[2025-10-13 17:18:52] === === RUN 1/1 (isoforest, param=30) ===
+[2025-10-13 17:18:52] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 17:18:53] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 17:18:53] [INFO] [XDP_STATS] Started (PID=3703549)
+[2025-10-13 17:18:54] [INFO] [XDP_STATS] Finished.
+[2025-10-13 17:18:54] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/isoforest_30_1.csv
+[2025-10-13 17:18:54] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/isoforest_30_1.csv
+[2025-10-13 17:18:54] [INFO]   Dumped isoforest nodes to isoforest_nodes.csv
+[2025-10-13 17:18:54] [INFO]   Dumped flow_tracking map to flow_dropped.csv
+[2025-10-13 17:18:55] [ERROR] File dự đoán không tồn tại: /home/dongtv/dtuan/autorun/run_accuracy/isoforest_30_1.csv
+[2025-10-13 17:18:55] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-13 17:19:01] === === RUN 1/1 (isoforest, param=30) ===
+[2025-10-13 17:19:01] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 17:19:02] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 17:19:02] [INFO] [XDP_STATS] Started (PID=3703823)
+[2025-10-13 17:21:19] [INFO] [XDP_STATS] Finished.
+[2025-10-13 17:21:21] === === RUN 1/1 (isoforest, param=30) ===
+[2025-10-13 17:21:21] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 17:21:25] === === RUN 1/1 (isoforest, param=30) ===
+[2025-10-13 17:21:25] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-13 17:21:26] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-13 17:21:26] [INFO] [XDP_STATS] Started (PID=3706415)
+[2025-10-13 17:26:09] [INFO] [XDP_STATS] Finished.
+[2025-10-14 15:28:17] === === RUN 1/5 (isoforest, param=20) ===
+[2025-10-14 15:28:17] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-14 15:28:18] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-14 15:28:18] [INFO] [XDP_STATS] Started (PID=302434)
+[2025-10-14 15:37:29] [INFO] [XDP_STATS] Finished.
+[2025-10-14 15:37:29] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_1.csv
+[2025-10-14 15:37:29] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_1.csv
+[2025-10-14 15:37:29] [INFO]   Dumped isoforest nodes to isoforest_nodes.csv
+[2025-10-14 15:37:29] [INFO]   Dumped flow_tracking map to flow_dropped.csv
+[2025-10-14 15:37:39] [ERROR] File dự đoán không tồn tại: /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_1.csv
+[2025-10-14 15:37:39] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-14 15:37:41] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-14 15:37:42] [INFO] Completed run 1/5
+[2025-10-14 15:37:42] === === RUN 2/5 (isoforest, param=20) ===
+[2025-10-14 15:37:42] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-14 15:37:43] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-14 15:37:43] [INFO] [XDP_STATS] Started (PID=318233)
+[2025-10-14 15:38:10] [INFO] [XDP_STATS] Finished.
+[2025-10-14 15:41:03] === === RUN 1/5 (isoforest, param=20) ===
+[2025-10-14 15:41:03] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-14 15:41:04] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-14 15:41:04] [INFO] [XDP_STATS] Started (PID=324652)
+[2025-10-14 15:50:15] [INFO] [XDP_STATS] Finished.
+[2025-10-14 15:50:15] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_1.csv
+[2025-10-14 15:50:15] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_1.csv
+[2025-10-14 15:50:15] [INFO]   [INFO] Dumped nodes to nodes.csv
+[2025-10-14 15:50:15] [INFO]   [INFO] Dumped flows to /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_1.csv
+[2025-10-14 15:50:17] [INFO] [EVAL] Matched flows: 669
+[2025-10-14 15:50:17] [INFO] [EVAL] Accuracy : 0.8894
+[2025-10-14 15:50:17] [INFO] [EVAL] Precision: 0.9084
+[2025-10-14 15:50:17] [INFO] [EVAL] Recall   : 0.9770
+[2025-10-14 15:50:17] [INFO] [EVAL] F1-score : 0.9415
+[2025-10-14 15:50:17] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-14 15:50:17] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-14 15:50:19] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-14 15:50:19] [INFO] Completed run 1/5
+[2025-10-14 15:50:19] === === RUN 2/5 (isoforest, param=20) ===
+[2025-10-14 15:50:19] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-14 15:50:20] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-14 15:50:20] [INFO] [XDP_STATS] Started (PID=339833)
+[2025-10-14 15:59:30] [INFO] [XDP_STATS] Finished.
+[2025-10-14 15:59:30] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_2.csv
+[2025-10-14 15:59:30] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_2.csv
+[2025-10-14 15:59:30] [INFO]   [INFO] Dumped nodes to nodes.csv
+[2025-10-14 15:59:30] [INFO]   [INFO] Dumped flows to /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_2.csv
+[2025-10-14 15:59:30] [INFO] [EVAL] Matched flows: 667
+[2025-10-14 15:59:30] [INFO] [EVAL] Accuracy : 0.9190
+[2025-10-14 15:59:30] [INFO] [EVAL] Precision: 0.9617
+[2025-10-14 15:59:30] [INFO] [EVAL] Recall   : 0.9491
+[2025-10-14 15:59:30] [INFO] [EVAL] F1-score : 0.9554
+[2025-10-14 15:59:30] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-14 15:59:30] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-14 15:59:32] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-14 15:59:32] [INFO] Completed run 2/5
+[2025-10-14 15:59:32] === === RUN 3/5 (isoforest, param=20) ===
+[2025-10-14 15:59:32] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-14 15:59:34] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-14 15:59:34] [INFO] [XDP_STATS] Started (PID=354911)
+[2025-10-14 16:08:44] [INFO] [XDP_STATS] Finished.
+[2025-10-14 16:08:44] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_3.csv
+[2025-10-14 16:08:44] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_3.csv
+[2025-10-14 16:08:44] [INFO]   [INFO] Dumped nodes to nodes.csv
+[2025-10-14 16:08:44] [INFO]   [INFO] Dumped flows to /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_3.csv
+[2025-10-14 16:08:44] [INFO] [EVAL] Matched flows: 668
+[2025-10-14 16:08:44] [INFO] [EVAL] Accuracy : 0.8503
+[2025-10-14 16:08:44] [INFO] [EVAL] Precision: 0.9350
+[2025-10-14 16:08:44] [INFO] [EVAL] Recall   : 0.8982
+[2025-10-14 16:08:44] [INFO] [EVAL] F1-score : 0.9162
+[2025-10-14 16:08:44] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-14 16:08:44] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-14 16:08:46] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-14 16:08:46] [INFO] Completed run 3/5
+[2025-10-14 16:08:46] === === RUN 4/5 (isoforest, param=20) ===
+[2025-10-14 16:08:46] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-14 16:08:48] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-14 16:08:48] [INFO] [XDP_STATS] Started (PID=369857)
+[2025-10-14 16:17:58] [INFO] [XDP_STATS] Finished.
+[2025-10-14 16:17:58] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_4.csv
+[2025-10-14 16:17:58] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_4.csv
+[2025-10-14 16:17:58] [INFO]   [INFO] Dumped nodes to nodes.csv
+[2025-10-14 16:17:58] [INFO]   [INFO] Dumped flows to /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_4.csv
+[2025-10-14 16:17:58] [INFO] [EVAL] Matched flows: 668
+[2025-10-14 16:17:58] [INFO] [EVAL] Accuracy : 0.8249
+[2025-10-14 16:17:58] [INFO] [EVAL] Precision: 0.9900
+[2025-10-14 16:17:58] [INFO] [EVAL] Recall   : 0.8161
+[2025-10-14 16:17:58] [INFO] [EVAL] F1-score : 0.8947
+[2025-10-14 16:17:58] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-14 16:17:58] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-14 16:18:00] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-14 16:18:00] [INFO] Completed run 4/5
+[2025-10-14 16:18:00] === === RUN 5/5 (isoforest, param=20) ===
+[2025-10-14 16:18:00] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-14 16:18:01] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-14 16:18:01] [INFO] [XDP_STATS] Started (PID=384763)
+[2025-10-14 16:27:12] [INFO] [XDP_STATS] Finished.
+[2025-10-14 16:27:12] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_5.csv
+[2025-10-14 16:27:12] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_5.csv
+[2025-10-14 16:27:12] [INFO]   [INFO] Dumped nodes to nodes.csv
+[2025-10-14 16:27:12] [INFO]   [INFO] Dumped flows to /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_5.csv
+[2025-10-14 16:27:12] [INFO] [EVAL] Matched flows: 668
+[2025-10-14 16:27:12] [INFO] [EVAL] Accuracy : 0.9042
+[2025-10-14 16:27:12] [INFO] [EVAL] Precision: 0.9135
+[2025-10-14 16:27:12] [INFO] [EVAL] Recall   : 0.9885
+[2025-10-14 16:27:12] [INFO] [EVAL] F1-score : 0.9495
+[2025-10-14 16:27:12] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-14 16:27:12] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-14 16:27:14] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-14 16:27:14] [INFO] Completed run 5/5
+[2025-10-14 16:38:29] === === RUN 1/5 (isoforest, param=20) ===
+[2025-10-14 16:38:29] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-14 16:38:31] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-14 16:38:31] [INFO] [XDP_STATS] Started (PID=418676)
+[2025-10-14 16:47:41] [INFO] [XDP_STATS] Finished.
+[2025-10-14 16:47:41] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_1.csv
+[2025-10-14 16:47:41] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_1.csv
+[2025-10-14 16:47:41] [INFO]   [INFO] Dumped nodes to nodes.csv
+[2025-10-14 16:47:41] [INFO]   [INFO] Dumped flows to /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_1.csv
+[2025-10-14 16:47:42] [INFO] [EVAL] Matched flows: 668
+[2025-10-14 16:47:42] [INFO] [EVAL] Accuracy : 0.0883
+[2025-10-14 16:47:42] [INFO] [EVAL] Precision: 0.0000
+[2025-10-14 16:47:42] [INFO] [EVAL] Recall   : 0.0000
+[2025-10-14 16:47:42] [INFO] [EVAL] F1-score : 0.0000
+[2025-10-14 16:47:42] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-14 16:47:42] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-14 16:47:44] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-14 16:47:44] [INFO] Completed run 1/5
+[2025-10-14 16:47:44] === === RUN 2/5 (isoforest, param=20) ===
+[2025-10-14 16:47:44] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-14 16:47:46] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-14 16:47:46] [INFO] [XDP_STATS] Started (PID=431177)
+[2025-10-14 16:56:56] [INFO] [XDP_STATS] Finished.
+[2025-10-14 16:56:56] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_2.csv
+[2025-10-14 16:56:56] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_2.csv
+[2025-10-14 16:56:56] [INFO]   [INFO] Dumped nodes to nodes.csv
+[2025-10-14 16:56:56] [INFO]   [INFO] Dumped flows to /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_2.csv
+[2025-10-14 16:56:56] [INFO] [EVAL] Matched flows: 668
+[2025-10-14 16:56:56] [INFO] [EVAL] Accuracy : 0.0883
+[2025-10-14 16:56:56] [INFO] [EVAL] Precision: 0.0000
+[2025-10-14 16:56:56] [INFO] [EVAL] Recall   : 0.0000
+[2025-10-14 16:56:56] [INFO] [EVAL] F1-score : 0.0000
+[2025-10-14 16:56:56] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-14 16:56:56] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-14 16:56:58] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-14 16:56:58] [INFO] Completed run 2/5
+[2025-10-14 16:56:58] === === RUN 3/5 (isoforest, param=20) ===
+[2025-10-14 16:56:58] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-14 16:57:00] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-14 16:57:00] [INFO] [XDP_STATS] Started (PID=440560)
+[2025-10-14 17:06:10] [INFO] [XDP_STATS] Finished.
+[2025-10-14 17:06:10] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_3.csv
+[2025-10-14 17:06:10] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_3.csv
+[2025-10-14 17:06:10] [INFO]   [INFO] Dumped nodes to nodes.csv
+[2025-10-14 17:06:10] [INFO]   [INFO] Dumped flows to /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_3.csv
+[2025-10-14 17:06:10] [INFO] [EVAL] Matched flows: 668
+[2025-10-14 17:06:10] [INFO] [EVAL] Accuracy : 0.0883
+[2025-10-14 17:06:10] [INFO] [EVAL] Precision: 0.0000
+[2025-10-14 17:06:10] [INFO] [EVAL] Recall   : 0.0000
+[2025-10-14 17:06:10] [INFO] [EVAL] F1-score : 0.0000
+[2025-10-14 17:06:10] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-14 17:06:10] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-14 17:06:12] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-14 17:06:12] [INFO] Completed run 3/5
+[2025-10-14 17:06:12] === === RUN 4/5 (isoforest, param=20) ===
+[2025-10-14 17:06:12] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-14 17:06:13] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-14 17:06:13] [INFO] [XDP_STATS] Started (PID=450060)
+[2025-10-14 17:15:23] [INFO] [XDP_STATS] Finished.
+[2025-10-14 17:15:24] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_4.csv
+[2025-10-14 17:15:24] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_4.csv
+[2025-10-14 17:15:24] [INFO]   [INFO] Dumped nodes to nodes.csv
+[2025-10-14 17:15:24] [INFO]   [INFO] Dumped flows to /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_4.csv
+[2025-10-14 17:15:24] [INFO] [EVAL] Matched flows: 668
+[2025-10-14 17:15:24] [INFO] [EVAL] Accuracy : 0.0883
+[2025-10-14 17:15:24] [INFO] [EVAL] Precision: 0.0000
+[2025-10-14 17:15:24] [INFO] [EVAL] Recall   : 0.0000
+[2025-10-14 17:15:24] [INFO] [EVAL] F1-score : 0.0000
+[2025-10-14 17:15:24] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-14 17:15:24] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-14 17:15:26] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-14 17:15:26] [INFO] Completed run 4/5
+[2025-10-14 17:15:26] === === RUN 5/5 (isoforest, param=20) ===
+[2025-10-14 17:15:26] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-14 17:15:27] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-14 17:15:27] [INFO] [XDP_STATS] Started (PID=459451)
+[2025-10-14 17:24:37] [INFO] [XDP_STATS] Finished.
+[2025-10-14 17:24:37] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_5.csv
+[2025-10-14 17:24:37] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_5.csv
+[2025-10-14 17:24:37] [INFO]   [INFO] Dumped nodes to nodes.csv
+[2025-10-14 17:24:37] [INFO]   [INFO] Dumped flows to /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_5.csv
+[2025-10-14 17:24:37] [INFO] [EVAL] Matched flows: 668
+[2025-10-14 17:24:37] [INFO] [EVAL] Accuracy : 0.0883
+[2025-10-14 17:24:37] [INFO] [EVAL] Precision: 0.0000
+[2025-10-14 17:24:37] [INFO] [EVAL] Recall   : 0.0000
+[2025-10-14 17:24:37] [INFO] [EVAL] F1-score : 0.0000
+[2025-10-14 17:24:37] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-14 17:24:37] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-14 17:24:39] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-14 17:24:39] [INFO] Completed run 5/5
+[2025-10-14 18:13:02] === === RUN 1/5 (isoforest, param=20) ===
+[2025-10-14 18:13:02] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-14 18:13:04] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-14 18:13:04] [INFO] [XDP_STATS] Started (PID=519509)
+[2025-10-14 18:22:14] [INFO] [XDP_STATS] Finished.
+[2025-10-14 18:22:14] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_1.csv
+[2025-10-14 18:22:14] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_1.csv
+[2025-10-14 18:22:14] [INFO]   [INFO] Dumped nodes to nodes.csv
+[2025-10-14 18:22:14] [INFO]   [INFO] Dumped flows to /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_1.csv
+[2025-10-14 18:22:15] [INFO] [EVAL] Matched flows: 667
+[2025-10-14 18:22:15] [INFO] [EVAL] Accuracy : 0.5217
+[2025-10-14 18:22:15] [INFO] [EVAL] Precision: 0.9866
+[2025-10-14 18:22:15] [INFO] [EVAL] Recall   : 0.4828
+[2025-10-14 18:22:15] [INFO] [EVAL] F1-score : 0.6483
+[2025-10-14 18:22:15] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-14 18:22:15] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-14 18:22:17] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-14 18:22:18] [INFO] Completed run 1/5
+[2025-10-14 18:22:18] === === RUN 2/5 (isoforest, param=20) ===
+[2025-10-14 18:22:18] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-14 18:22:19] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-14 18:22:19] [INFO] [XDP_STATS] Started (PID=530382)
+[2025-10-14 18:31:29] [INFO] [XDP_STATS] Finished.
+[2025-10-14 18:31:29] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_2.csv
+[2025-10-14 18:31:29] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_2.csv
+[2025-10-14 18:31:29] [INFO]   [INFO] Dumped nodes to nodes.csv
+[2025-10-14 18:31:29] [INFO]   [INFO] Dumped flows to /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_2.csv
+[2025-10-14 18:31:29] [INFO] [EVAL] Matched flows: 668
+[2025-10-14 18:31:29] [INFO] [EVAL] Accuracy : 0.9117
+[2025-10-14 18:31:29] [INFO] [EVAL] Precision: 0.9117
+[2025-10-14 18:31:29] [INFO] [EVAL] Recall   : 1.0000
+[2025-10-14 18:31:29] [INFO] [EVAL] F1-score : 0.9538
+[2025-10-14 18:31:29] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-14 18:31:29] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-14 18:31:31] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-14 18:31:31] [INFO] Completed run 2/5
+[2025-10-14 18:31:31] === === RUN 3/5 (isoforest, param=20) ===
+[2025-10-14 18:31:31] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-14 18:31:33] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-14 18:31:33] [INFO] [XDP_STATS] Started (PID=539781)
+[2025-10-14 18:40:43] [INFO] [XDP_STATS] Finished.
+[2025-10-14 18:40:43] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_3.csv
+[2025-10-14 18:40:43] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_3.csv
+[2025-10-14 18:40:43] [INFO]   [INFO] Dumped nodes to nodes.csv
+[2025-10-14 18:40:43] [INFO]   [INFO] Dumped flows to /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_3.csv
+[2025-10-14 18:40:43] [INFO] [EVAL] Matched flows: 669
+[2025-10-14 18:40:43] [INFO] [EVAL] Accuracy : 0.8356
+[2025-10-14 18:40:43] [INFO] [EVAL] Precision: 0.9826
+[2025-10-14 18:40:43] [INFO] [EVAL] Recall   : 0.8342
+[2025-10-14 18:40:43] [INFO] [EVAL] F1-score : 0.9023
+[2025-10-14 18:40:43] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-14 18:40:43] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-14 18:40:45] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-14 18:40:45] [INFO] Completed run 3/5
+[2025-10-14 18:40:45] === === RUN 4/5 (isoforest, param=20) ===
+[2025-10-14 18:40:45] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-14 18:40:46] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-14 18:40:46] [INFO] [XDP_STATS] Started (PID=549162)
+[2025-10-14 18:49:57] [INFO] [XDP_STATS] Finished.
+[2025-10-14 18:49:57] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_4.csv
+[2025-10-14 18:49:57] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_4.csv
+[2025-10-14 18:49:57] [INFO]   [INFO] Dumped nodes to nodes.csv
+[2025-10-14 18:49:57] [INFO]   [INFO] Dumped flows to /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_4.csv
+[2025-10-14 18:49:57] [INFO] [EVAL] Matched flows: 669
+[2025-10-14 18:49:57] [INFO] [EVAL] Accuracy : 0.8789
+[2025-10-14 18:49:57] [INFO] [EVAL] Precision: 0.9567
+[2025-10-14 18:49:57] [INFO] [EVAL] Recall   : 0.9080
+[2025-10-14 18:49:57] [INFO] [EVAL] F1-score : 0.9318
+[2025-10-14 18:49:57] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-14 18:49:57] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-14 18:49:59] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-14 18:49:59] [INFO] Completed run 4/5
+[2025-10-14 18:49:59] === === RUN 5/5 (isoforest, param=20) ===
+[2025-10-14 18:49:59] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-14 18:50:00] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-14 18:50:00] [INFO] [XDP_STATS] Started (PID=558486)
+[2025-10-14 18:59:10] [INFO] [XDP_STATS] Finished.
+[2025-10-14 18:59:10] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_5.csv
+[2025-10-14 18:59:10] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_5.csv
+[2025-10-14 18:59:10] [INFO]   [INFO] Dumped nodes to nodes.csv
+[2025-10-14 18:59:10] [INFO]   [INFO] Dumped flows to /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_5.csv
+[2025-10-14 18:59:11] [INFO] [EVAL] Matched flows: 667
+[2025-10-14 18:59:11] [INFO] [EVAL] Accuracy : 0.9025
+[2025-10-14 18:59:11] [INFO] [EVAL] Precision: 0.9290
+[2025-10-14 18:59:11] [INFO] [EVAL] Recall   : 0.9672
+[2025-10-14 18:59:11] [INFO] [EVAL] F1-score : 0.9477
+[2025-10-14 18:59:11] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-14 18:59:11] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-14 18:59:13] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-14 18:59:13] [INFO] Completed run 5/5
+[2025-10-14 21:05:17] === === RUN 1/1 (isoforest, param=20) ===
+[2025-10-14 21:05:17] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-14 21:05:18] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-14 21:05:19] [INFO] [XDP_STATS] Started (PID=698260)
+[2025-10-14 21:14:29] [INFO] [XDP_STATS] Finished.
+[2025-10-14 21:14:29] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_1.csv
+[2025-10-14 21:14:29] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_1.csv
+[2025-10-14 21:14:29] [INFO]   [INFO] Dumped nodes to nodes.csv
+[2025-10-14 21:14:29] [INFO]   [INFO] Dumped flows to /home/dongtv/dtuan/autorun/run_accuracy/isoforest_20_1.csv
+[2025-10-14 21:14:30] [INFO] [EVAL] Matched flows: 668
+[2025-10-14 21:14:30] [INFO] [EVAL] Accuracy : 0.8952
+[2025-10-14 21:14:30] [INFO] [EVAL] Precision: 0.9271
+[2025-10-14 21:14:30] [INFO] [EVAL] Recall   : 0.9606
+[2025-10-14 21:14:30] [INFO] [EVAL] F1-score : 0.9435
+[2025-10-14 21:14:30] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-14 21:14:30] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-14 21:14:32] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-14 21:14:32] [INFO] Completed run 1/1
+[2025-10-15 08:48:27] === === RUN 1/5 (svm, param=100) ===
+[2025-10-15 08:48:27] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-15 08:48:27] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-15 08:48:27] [INFO] [XDP_STATS] Started (PID=1433628)
+[2025-10-15 08:57:37] [INFO] [XDP_STATS] Finished.
+[2025-10-15 08:57:37] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/svm_100_1.csv
+[2025-10-15 08:57:37] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/svm_100_1.csv
+[2025-10-15 08:57:37] [INFO]   Dumped xdp_flow_tracking -> nodes.csv
+[2025-10-15 08:57:39] [ERROR] File dự đoán không tồn tại: /home/dongtv/dtuan/autorun/run_accuracy/svm_100_1.csv
+[2025-10-15 08:57:39] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-15 08:57:41] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-15 08:57:41] [INFO] Completed run 1/5
+[2025-10-15 08:57:41] === === RUN 2/5 (svm, param=100) ===
+[2025-10-15 08:57:41] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-15 08:57:41] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-15 08:57:41] [INFO] [XDP_STATS] Started (PID=1443036)
+[2025-10-15 08:58:04] [INFO] [XDP_STATS] Finished.
+[2025-10-15 09:00:21] === === RUN 1/5 (svm, param=100) ===
+[2025-10-15 09:00:21] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-15 09:00:21] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-15 09:00:21] [INFO] [XDP_STATS] Started (PID=1445799)
+[2025-10-15 09:00:22] [INFO] [XDP_STATS] Finished.
+[2025-10-15 09:00:22] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/svm_100_1.csv
+[2025-10-15 09:00:22] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/svm_100_1.csv
+[2025-10-15 09:00:22] [INFO]   Dumped xdp_flow_tracking -> nodes.csv
+[2025-10-16 09:18:35] === === RUN 1/5 (randforest, param=60) ===
+[2025-10-16 09:18:35] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-16 09:18:38] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-16 09:18:38] [INFO] [XDP_STATS] Started (PID=2851907)
+[2025-10-16 09:27:48] [INFO] [XDP_STATS] Finished.
+[2025-10-16 09:27:48] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-16 09:27:48] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-16 09:27:48] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-16 09:27:48] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-16 09:28:02] [INFO] [EVAL] Matched flows: 668
+[2025-10-16 09:28:02] [INFO] [EVAL] Accuracy : 0.8922
+[2025-10-16 09:28:02] [INFO] [EVAL] Precision: 0.9702
+[2025-10-16 09:28:02] [INFO] [EVAL] Recall   : 0.9097
+[2025-10-16 09:28:02] [INFO] [EVAL] F1-score : 0.9390
+[2025-10-16 09:28:02] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-16 09:28:02] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-16 09:28:04] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-16 09:28:04] [INFO] Completed run 1/5
+[2025-10-16 09:28:04] === === RUN 2/5 (randforest, param=60) ===
+[2025-10-16 09:28:04] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-16 09:28:06] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-16 09:28:06] [INFO] [XDP_STATS] Started (PID=2862137)
+[2025-10-16 09:37:16] [INFO] [XDP_STATS] Finished.
+[2025-10-16 09:37:16] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_2.csv
+[2025-10-16 09:37:16] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_2.csv
+[2025-10-16 09:37:17] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-16 09:37:17] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_2.csv
+[2025-10-16 09:37:17] [INFO] [EVAL] Matched flows: 669
+[2025-10-16 09:37:17] [INFO] [EVAL] Accuracy : 0.9103
+[2025-10-16 09:37:17] [INFO] [EVAL] Precision: 0.9692
+[2025-10-16 09:37:17] [INFO] [EVAL] Recall   : 0.9310
+[2025-10-16 09:37:17] [INFO] [EVAL] F1-score : 0.9497
+[2025-10-16 09:37:17] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-16 09:37:17] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-16 09:37:19] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-16 09:37:19] [INFO] Completed run 2/5
+[2025-10-16 09:37:19] === === RUN 3/5 (randforest, param=60) ===
+[2025-10-16 09:37:19] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-16 09:37:21] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-16 09:37:21] [INFO] [XDP_STATS] Started (PID=2871619)
+[2025-10-16 09:40:29] [INFO] [XDP_STATS] Finished.
+[2025-10-16 10:27:29] === === RUN 1/1 (randforest, param=60) ===
+[2025-10-16 10:27:29] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-16 10:27:31] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-16 10:27:31] [INFO] [XDP_STATS] Started (PID=2924759)
+[2025-10-16 10:36:42] [INFO] [XDP_STATS] Finished.
+[2025-10-16 10:36:42] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-16 10:36:42] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-16 10:36:42] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-16 10:36:42] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-16 10:36:50] [INFO] [EVAL] Matched flows: 669
+[2025-10-16 10:36:50] [INFO] [EVAL] Accuracy : 0.8894
+[2025-10-16 10:36:50] [INFO] [EVAL] Precision: 0.9685
+[2025-10-16 10:36:50] [INFO] [EVAL] Recall   : 0.9080
+[2025-10-16 10:36:50] [INFO] [EVAL] F1-score : 0.9373
+[2025-10-16 10:36:50] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-16 10:36:50] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-16 10:36:52] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-16 10:36:52] [INFO] Completed run 1/1
+[2025-10-16 10:39:10] === === RUN 1/1 (randforest, param=60) ===
+[2025-10-16 10:39:10] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-16 10:39:12] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-16 10:39:12] [INFO] [XDP_STATS] Started (PID=2936924)
+[2025-10-16 10:48:22] [INFO] [XDP_STATS] Finished.
+[2025-10-16 10:48:22] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-16 10:48:22] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-16 10:48:22] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-16 10:48:22] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-16 10:48:24] [INFO] [EVAL] Matched flows: 669
+[2025-10-16 10:48:24] [INFO] [EVAL] Accuracy : 0.0897
+[2025-10-16 10:48:24] [INFO] [EVAL] Precision: 0.0000
+[2025-10-16 10:48:24] [INFO] [EVAL] Recall   : 0.0000
+[2025-10-16 10:48:24] [INFO] [EVAL] F1-score : 0.0000
+[2025-10-16 10:48:24] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-16 10:48:24] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-16 10:48:26] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-16 10:48:26] [INFO] Completed run 1/1
+[2025-10-16 10:57:58] === === RUN 1/5 (randforest, param=60) ===
+[2025-10-16 10:57:58] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-16 10:58:01] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-16 10:58:01] [INFO] [XDP_STATS] Started (PID=2965174)
+[2025-10-16 11:07:11] [INFO] [XDP_STATS] Finished.
+[2025-10-16 11:07:11] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-16 11:07:11] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-16 11:07:11] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-16 11:07:11] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-16 11:07:17] [INFO] [EVAL] Matched flows: 668
+[2025-10-16 11:07:17] [INFO] [EVAL] Accuracy : 0.0883
+[2025-10-16 11:07:17] [INFO] [EVAL] Precision: 0.0000
+[2025-10-16 11:07:17] [INFO] [EVAL] Recall   : 0.0000
+[2025-10-16 11:07:17] [INFO] [EVAL] F1-score : 0.0000
+[2025-10-16 11:07:17] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-16 11:07:17] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-16 11:07:19] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-16 11:07:19] [INFO] Completed run 1/5
+[2025-10-16 11:07:19] === === RUN 2/5 (randforest, param=60) ===
+[2025-10-16 11:07:19] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-16 11:07:21] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-16 11:07:21] [INFO] [XDP_STATS] Started (PID=2980771)
+[2025-10-16 11:16:32] [INFO] [XDP_STATS] Finished.
+[2025-10-16 11:16:32] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_2.csv
+[2025-10-16 11:16:32] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_2.csv
+[2025-10-16 11:16:32] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-16 11:16:32] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_2.csv
+[2025-10-16 11:16:32] [INFO] [EVAL] Matched flows: 668
+[2025-10-16 11:16:32] [INFO] [EVAL] Accuracy : 0.0883
+[2025-10-16 11:16:32] [INFO] [EVAL] Precision: 0.0000
+[2025-10-16 11:16:32] [INFO] [EVAL] Recall   : 0.0000
+[2025-10-16 11:16:32] [INFO] [EVAL] F1-score : 0.0000
+[2025-10-16 11:16:32] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-16 11:16:32] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-16 11:16:34] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-16 11:16:34] [INFO] Completed run 2/5
+[2025-10-16 11:16:34] === === RUN 3/5 (randforest, param=60) ===
+[2025-10-16 11:16:34] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-16 11:16:36] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-16 11:16:36] [INFO] [XDP_STATS] Started (PID=2996632)
+[2025-10-16 11:16:45] [INFO] [XDP_STATS] Finished.
+[2025-10-16 12:59:40] === === RUN 1/5 (randforest, param=60) ===
+[2025-10-16 12:59:40] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-16 12:59:42] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-16 12:59:42] [INFO] [XDP_STATS] Started (PID=3152826)
+[2025-10-16 12:59:44] [INFO] [XDP_STATS] Finished.
+[2025-10-16 13:00:34] === === RUN 1/5 (randforest, param=60) ===
+[2025-10-16 13:00:34] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-16 13:00:36] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-16 13:00:36] [INFO] [XDP_STATS] Started (PID=3154733)
+[2025-10-16 13:09:47] [INFO] [XDP_STATS] Finished.
+[2025-10-16 13:09:47] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-16 13:09:47] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-16 13:09:47] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-16 13:09:47] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_1.csv
+[2025-10-16 13:09:48] [INFO] [EVAL] Matched flows: 668
+[2025-10-16 13:09:48] [INFO] [EVAL] Accuracy : 0.5749
+[2025-10-16 13:09:48] [INFO] [EVAL] Precision: 0.9404
+[2025-10-16 13:09:48] [INFO] [EVAL] Recall   : 0.5698
+[2025-10-16 13:09:48] [INFO] [EVAL] F1-score : 0.7096
+[2025-10-16 13:09:48] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-16 13:09:48] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-16 13:09:50] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-16 13:09:50] [INFO] Completed run 1/5
+[2025-10-16 13:09:50] === === RUN 2/5 (randforest, param=60) ===
+[2025-10-16 13:09:50] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-16 13:09:53] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-16 13:09:53] [INFO] [XDP_STATS] Started (PID=3168279)
+[2025-10-16 13:19:03] [INFO] [XDP_STATS] Finished.
+[2025-10-16 13:19:03] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_2.csv
+[2025-10-16 13:19:03] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_2.csv
+[2025-10-16 13:19:03] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-16 13:19:03] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_2.csv
+[2025-10-16 13:19:03] [INFO] [EVAL] Matched flows: 668
+[2025-10-16 13:19:03] [INFO] [EVAL] Accuracy : 0.9117
+[2025-10-16 13:19:03] [INFO] [EVAL] Precision: 0.9693
+[2025-10-16 13:19:03] [INFO] [EVAL] Recall   : 0.9327
+[2025-10-16 13:19:03] [INFO] [EVAL] F1-score : 0.9506
+[2025-10-16 13:19:03] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-16 13:19:03] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-16 13:19:05] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-16 13:19:05] [INFO] Completed run 2/5
+[2025-10-16 13:19:05] === === RUN 3/5 (randforest, param=60) ===
+[2025-10-16 13:19:05] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-16 13:19:07] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-16 13:19:07] [INFO] [XDP_STATS] Started (PID=3177732)
+[2025-10-16 13:28:17] [INFO] [XDP_STATS] Finished.
+[2025-10-16 13:28:17] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_3.csv
+[2025-10-16 13:28:17] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_3.csv
+[2025-10-16 13:28:18] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-16 13:28:18] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_3.csv
+[2025-10-16 13:28:18] [INFO] [EVAL] Matched flows: 668
+[2025-10-16 13:28:18] [INFO] [EVAL] Accuracy : 0.9117
+[2025-10-16 13:28:18] [INFO] [EVAL] Precision: 0.9693
+[2025-10-16 13:28:18] [INFO] [EVAL] Recall   : 0.9327
+[2025-10-16 13:28:18] [INFO] [EVAL] F1-score : 0.9506
+[2025-10-16 13:28:18] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-16 13:28:18] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-16 13:28:20] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-16 13:28:20] [INFO] Completed run 3/5
+[2025-10-16 13:28:20] === === RUN 4/5 (randforest, param=60) ===
+[2025-10-16 13:28:20] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-16 13:28:22] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-16 13:28:22] [INFO] [XDP_STATS] Started (PID=3187209)
+[2025-10-16 13:37:32] [INFO] [XDP_STATS] Finished.
+[2025-10-16 13:37:32] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_4.csv
+[2025-10-16 13:37:32] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_4.csv
+[2025-10-16 13:37:32] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-16 13:37:32] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_4.csv
+[2025-10-16 13:37:32] [INFO] [EVAL] Matched flows: 669
+[2025-10-16 13:37:32] [INFO] [EVAL] Accuracy : 0.9118
+[2025-10-16 13:37:32] [INFO] [EVAL] Precision: 0.9693
+[2025-10-16 13:37:32] [INFO] [EVAL] Recall   : 0.9327
+[2025-10-16 13:37:32] [INFO] [EVAL] F1-score : 0.9506
+[2025-10-16 13:37:32] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-16 13:37:32] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-16 13:37:34] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-16 13:37:34] [INFO] Completed run 4/5
+[2025-10-16 13:37:34] === === RUN 5/5 (randforest, param=60) ===
+[2025-10-16 13:37:34] [DEBUG] Load XDP program: sudo xdp-loader load eno3 -m skb -n xdp_anomaly_detector -p /sys/fs/bpf/eno3 /home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o
+[2025-10-16 13:37:37] [DEBUG] Starting xdp_stats on eno3 (wait until API done)...
+[2025-10-16 13:37:37] [INFO] [XDP_STATS] Started (PID=3198330)
+[2025-10-16 13:46:47] [INFO] [XDP_STATS] Finished.
+[2025-10-16 13:46:47] [INFO] Dumping map to CSV -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_5.csv
+[2025-10-16 13:46:47] [DEBUG] Dump XDP map to CSV: sudo /home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv eno3 nodes.csv /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_5.csv
+[2025-10-16 13:46:47] [INFO]   Dumped xdp_randforest_nodes -> nodes.csv
+[2025-10-16 13:46:47] [INFO]   Dumped xdp_flow_tracking -> /home/dongtv/dtuan/autorun/run_accuracy/randforest_60_5.csv
+[2025-10-16 13:46:47] [INFO] [EVAL] Matched flows: 668
+[2025-10-16 13:46:47] [INFO] [EVAL] Accuracy : 0.9117
+[2025-10-16 13:46:47] [INFO] [EVAL] Precision: 0.9693
+[2025-10-16 13:46:47] [INFO] [EVAL] Recall   : 0.9327
+[2025-10-16 13:46:47] [INFO] [EVAL] F1-score : 0.9506
+[2025-10-16 13:46:47] [INFO] [EVAL] Kết quả được ghi vào: /home/dongtv/dtuan/autorun/run_accuracy/evaluation_results.csv
+[2025-10-16 13:46:47] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-16 13:46:49] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-16 13:46:49] [INFO] Completed run 5/5
