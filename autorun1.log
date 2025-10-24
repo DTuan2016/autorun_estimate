@@ -14777,3 +14777,16 @@ PermissionError: [Errno 13] Permission denied: 'common_kern_user.h'
 [2025-10-24 08:43:21] [DEBUG] Starting perf (120s)...
 [2025-10-24 08:43:21] [INFO] [BPF] Profiling started (PID=3116991)
 [2025-10-24 08:43:21] [INFO] [PERF] Started (PID=3116992)
+[2025-10-24 08:45:21] [DEBUG] [BPF] Sending SIGINT to stop profiling...
+[2025-10-24 08:45:21] [INFO] [BPF] Profiling completed.
+[2025-10-24 08:45:29] [INFO] [PERF] Completed.
+[2025-10-24 08:45:29] [DEBUG] Unload all XDP programs: sudo xdp-loader unload eno3 --all
+[2025-10-24 08:45:31] [DEBUG] Remove old BPF maps: sudo rm -rf /sys/fs/bpf/eno3
+[2025-10-24 08:45:31] [INFO] Completed PPS=20000, Run=2, Model rf_10_16
+[2025-10-24 08:45:34] === === PPS=20000, Run 2/3, Model rf_10_64 ===
+[2025-10-24 08:45:34] [INFO] Đã cd vào /home/dongtv/dtuan/xdp-program/xdp_prog
+[2025-10-24 08:45:34] [INFO] Running python3 /home/dongtv/dtuan/xdp-program/xdp_prog/rf2qs.py --model /home/dongtv/security_paper/rf/rf_10_64_model.pkl
+[2025-10-24 08:45:34] [DEBUG] Run rf2qs.py: python3 /home/dongtv/dtuan/xdp-program/xdp_prog/rf2qs.py --model /home/dongtv/security_paper/rf/rf_10_64_model.pkl
+[2025-10-24 08:45:35] [INFO]   Wrote header: common_kern_user.h  (trees=10, features=6, nodes=630, MAX_LEAVES_PER_TREE=64)
+[2025-10-24 08:45:35] [INFO] Building XDP program in /home/dongtv/dtuan/xdp-program
+[2025-10-24 08:45:35] [DEBUG] Build XDP program: make -C /home/dongtv/dtuan/xdp-program
