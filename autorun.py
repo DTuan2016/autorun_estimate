@@ -1,11 +1,11 @@
+#!/usr/bin/env python3
 import subprocess
-import re
 import requests
 import os
 import time
 import signal
 from colorama import Fore, Style, init
-from multiprocessing import Process
+from multiprocessing import Process, Manager
 import argparse
 
 # --- Initialize colorama ---
@@ -19,46 +19,31 @@ COLOR_DEBUG = Fore.CYAN
 COLOR_HEADER = Fore.MAGENTA + Style.BRIGHT
 COLOR_RESET = Style.RESET_ALL
 
-# --- Paths ---
-BASE_DIR = "/home/dongtv/dtuan/autorun"
-LOG_SYSTEM_PATH = os.path.join(BASE_DIR, "autorun.log")
-BPF_DIR = os.path.join(BASE_DIR, "results_bpf1")
-LANFORGE_DIR = os.path.join("/home/lanforge/Desktop/app", "results")
-PERF_DIR = os.path.join(BASE_DIR, "results_perf1")
-FLAMEGRAPH_SCRIPT = "/home/dongtv/FlameGraph/run_perf.sh"
-STATS_DIR =  os.path.join(BASE_DIR, "results_stats1")
 # --- Parse CLI arguments ---
 parser = argparse.ArgumentParser(description="Automated XDP profiling runner")
-parser.add_argument("--branch", required=True, help="Tên branch (ví dụ: knn_threshold)")
-parser.add_argument("--param", required=True, help="Thông số thuật toán (ví dụ: 200)")
-parser.add_argument("--max-time", type=int, default=120, help="Thời gian chạy mỗi lần (mặc định: 120s)")
-parser.add_argument("--num-runs", type=int, default=5, help="Số lần lặp lại mỗi mức PPS (mặc định: 5)")
+parser.add_argument("--branch", required=True, help="Tên nhánh (ví dụ: knn_threshold)")
+parser.add_argument("--param", required=True, help="Tham số (ví dụ: 200)")
+parser.add_argument("--num-runs", type=int, default=5, help="Số lần lặp lại (mặc định: 5)")
+parser.add_argument("--iface", default="eno3", help="Tên interface (mặc định: eno3)")
+parser.add_argument("--api-url", default="http://192.168.101.238:20168/run_acc", help="URL API để replay traffic")
 args = parser.parse_args()
 
 branch = args.branch
 param = args.param
-MAX_TIME = args.max_time
 NUM_RUNS = args.num_runs
+iface = args.iface
+api_url = args.api_url
 
+# --- Directories ---
+BASEDIR = "/home/dongtv/dtuan/autorun"
+ACC_DIR = os.path.join(BASEDIR, "run_accuracy")
+LOG_FILE = os.path.join(BASEDIR, "acc_run.log")
+os.makedirs(ACC_DIR, exist_ok=True)
 
-# --- Input params ---
-# branch = "featureA"
-# param = "knn200"
-api_url = "http://192.168.101.238:20168/run"
-iface = "eno3"
-# MAX_TIME = 20
-# NUM_RUNS = 5
+# --- Logging setup ---
+g_system_log = open(LOG_FILE, "a", buffering=1)
+g_log_file = None
 
-# --- Prepare folders ---
-os.makedirs(BPF_DIR, exist_ok=True)
-os.makedirs(PERF_DIR, exist_ok=True)
-os.makedirs(STATS_DIR, exist_ok=True)
-
-# --- System-wide log file ---
-g_system_log = open(LOG_SYSTEM_PATH, "a", buffering=1)
-g_log_file = None  # profiling log (per-run)
-
-# --- Logging function ---
 def log(level, message, to_file=True):
     global g_system_log
     if level == 'INFO': color, prefix = COLOR_INFO, '[INFO]'
@@ -70,11 +55,9 @@ def log(level, message, to_file=True):
     msg = f"{prefix} {message}"
     print(f"{color}{msg}{COLOR_RESET}")
     timestamp = time.strftime("[%Y-%m-%d %H:%M:%S]")
-    # Always log to system log
     if g_system_log:
         g_system_log.write(f"{timestamp} {msg}\n")
         g_system_log.flush()
-    # Also log to per-profiling log if active
     if to_file and g_log_file:
         g_log_file.write(f"{timestamp} {msg}\n")
         g_log_file.flush()
@@ -93,115 +76,137 @@ def run_cmd(cmd, desc, check=True):
         return result
     except subprocess.CalledProcessError as e:
         log('ERROR', f"Command failed ({desc}): {e}")
-        log('ERROR', f"STDOUT: {e.stdout.strip()}")
-        log('ERROR', f"STDERR: {e.stderr.strip()}")
-        if check: raise
+        if check:
+            raise
         return None
-
-# --- Get loaded XDP program ID ---
-def get_prog_id():
-    log('DEBUG', "Getting XDP program ID for 'xdp_anomaly_detector'...")
-    try:
-        bpftool_out = subprocess.check_output(["sudo", "bpftool", "prog", "show"], text=True)
-    except subprocess.CalledProcessError as e:
-        log('ERROR', f"Failed to run bpftool: {e}")
-        raise RuntimeError("bpftool failed.")
-    match = re.search(r'^(\d+):\s+(ext)\s+name\s+xdp_anomaly_detector', bpftool_out, re.MULTILINE)
-    if not match:
-        log('ERROR', "No XDP program named 'xdp_anomaly_detector' found!")
-        raise RuntimeError("No XDP program found!")
-    prog_id = match.group(1)
-    log('INFO', f"Found xdp_anomaly_detector ID: {prog_id}")
-    return prog_id
 
 # --- Unload all XDP programs ---
 def unload_xdp():
     run_cmd(["sudo", "xdp-loader", "unload", iface, "--all"], "Unload all XDP programs", check=False)
     time.sleep(2)
 
-# --- Call tcpreplay API ---
-def call_tcpreplay_api(api_url, log_file, speed, duration):
-    payload = {"log": log_file, "speed": speed, "duration": duration}
-    log('DEBUG', f"Calling tcpreplay API at {api_url} (duration={duration}s)...")
-    try:
-        resp = requests.post(api_url, json=payload, timeout=duration + 10)
-        if resp.status_code == 200:
-            log('INFO', f"API OK -> {resp.json()}")
-        else:
-            log('WARN', f"API returned {resp.status_code}: {resp.text}")
-    except Exception as e:
-        log('ERROR', f"Failed to call API: {e}")
-
-# --- Run BPF profiling ---
-def run_bpftool_profiling(prog_id, log_file_path, duration):
-    log('DEBUG', f"Starting bpftool profiling ({duration}s)...", to_file=False)
-    with open(log_file_path, "a", buffering=1) as f:
-        proc = subprocess.Popen(
-            ["sudo", "bpftool", "prog", "profile", "id", prog_id,
-             "l1d_loads", "llc_misses", "itlb_misses", "dtlb_misses"],
-            stdout=f, stderr=subprocess.STDOUT, preexec_fn=os.setsid
-        )
-        log('INFO', f"[BPF] Profiling started (PID={proc.pid})", to_file=False)
-        time.sleep(duration)
-        if proc.poll() is None:
-            log('DEBUG', f"[BPF] Sending SIGINT to stop profiling...", to_file=False)
-            os.killpg(proc.pid, signal.SIGINT)
-            try:
-                proc.wait(timeout=5)
-            except subprocess.TimeoutExpired:
-                log('WARN', "[BPF] Forcing SIGKILL...", to_file=False)
-                os.killpg(proc.pid, signal.SIGKILL)
-        log('INFO', "[BPF] Profiling completed.", to_file=False)
-
-# --- Run PERF profiling ---
-def run_perf_profiling(svg_file, log_file_path, duration):
-    log('DEBUG', f"Starting perf ({duration}s)...", to_file=False)
-    with open(log_file_path, "a", buffering=1) as f:
-        proc = subprocess.Popen(
-            ["bash", FLAMEGRAPH_SCRIPT, svg_file, str(duration)],
-            stdout=f, stderr=subprocess.STDOUT, preexec_fn=os.setsid
-        )
-        log('INFO', f"[PERF] Started (PID={proc.pid})", to_file=False)
-        proc.wait()
-        log('INFO', "[PERF] Completed.", to_file=False)
-
-def run_xdp_stats(log_file_path, iface="eno3", duration=60):
-    log('DEBUG', f"Starting xdp_stats on {iface} (duration={duration}s)...", to_file=False)
-    cmd = ["sudo", "/home/dongtv/dtuan/xdp-program/xdp_prog/xdp_stats", "--dev", iface]
+# --- Run xdp_stats (until stop signal) ---
+def run_xdp_stats(log_file_path, iface, stop_flag):
+    log('DEBUG', f"Starting xdp_stats on {iface} (wait until API done)...", to_file=False)
+    cmd = ["sudo", "/home/dongtv/dtuan/xdp-program/xdp_prog/xdp_stats", "--dev", iface, "--load-csv"]
     with open(log_file_path, "a", buffering=1) as f:
         proc = subprocess.Popen(cmd, stdout=f, stderr=subprocess.STDOUT, preexec_fn=os.setsid)
         log('INFO', f"[XDP_STATS] Started (PID={proc.pid})", to_file=False)
         try:
-            time.sleep(duration)
+            # Poll every 1s, stop when API done
+            while not stop_flag["done"]:
+                time.sleep(1)
         finally:
             if proc.poll() is None:
-                log('DEBUG', f"[XDP_STATS] Stopping after {duration}s...", to_file=False)
+                log('DEBUG', "[XDP_STATS] Stopping after API completed...", to_file=False)
                 os.killpg(proc.pid, signal.SIGINT)
                 time.sleep(1)
                 if proc.poll() is None:
                     log('WARN', "[XDP_STATS] Forcing kill...", to_file=False)
                     os.killpg(proc.pid, signal.SIGKILL)
             log('INFO', "[XDP_STATS] Finished.", to_file=False)
-        
-# --- Initial Cleanup ---
-unload_xdp()
-run_cmd(["sudo", "rm", "-rf", f"/sys/fs/bpf/{iface}"], "Remove old BPF maps", check=False)
-run_cmd(["sudo", "pkill", "-9", "bpftool"], "Kill stray bpftool", check=False)
-run_cmd(["sudo", "pkill", "-9", "perf"], "Kill stray perf", check=False)
 
-# --- Main loop ---
-for pps in range(10000, 100001, 10000):
-    for run_idx in range(1, NUM_RUNS + 1):
-        log_file_bpf = os.path.join(BPF_DIR, f"log_{branch}_{param}_{pps}_{run_idx}.txt")
-        log_file_perf = os.path.join(PERF_DIR, f"log_{branch}_{param}_{pps}_{run_idx}.txt")
-        svg_file = f"{branch}_{param}_{pps}_{run_idx}.svg"
-        log_file_lanforge = os.path.join(LANFORGE_DIR, f"log_{branch}_{param}_{pps}_{run_idx}.txt")
-        log_run_xdp_stats = os.path.join(STATS_DIR, f"log_{branch}_{param}_{pps}_{run_idx}.txt")
+# --- Call tcpreplay API (blocking) ---
+def call_tcpreplay_api(api_url):
+    print(f"[INFO] Gọi tcpreplay API {api_url} ...")
+    resp = requests.post(f"{api_url}", timeout=None)  # chờ đến khi xong
+    if resp.status_code == 200:
+        print("[INFO] tcpreplay hoàn tất, kết quả:")
+        print(resp.json())
+    else:
+        print(f"[ERROR] API trả mã lỗi {resp.status_code}: {resp.text}")
 
-        g_log_file = open(log_file_bpf, "a")
-        log('HEADER', f"=== PPS={pps}, Run {run_idx}/{NUM_RUNS} ===")
-        g_log_file.write(f"=== PPS={pps}, RUN={run_idx}, BRANCH={branch}, PARAM={param}, TIME={time.strftime('%Y-%m-%d %H:%M:%S')} ===\n")
+    print("[INFO] Tiếp tục thực hiện phần tính toán...")
 
+def evaluate_results(file_pred, file_true, output_csv):
+    """
+    So sánh flows.csv do XDP sinh ra với file ground truth,
+    tính Accuracy / Precision / Recall / F1-score,
+    và ghi kết quả vào CSV (append, không ghi header nếu đã tồn tại).
+    """
+    import pandas as pd
+    from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+    from datetime import datetime
+    import os
+
+    # --- Đọc file ---
+    if not os.path.exists(file_pred):
+        log("ERROR", f"File dự đoán không tồn tại: {file_pred}")
+        return
+    if not os.path.exists(file_true):
+        log("ERROR", f"File ground truth không tồn tại: {file_true}")
+        return
+
+    predict = pd.read_csv(file_pred)
+    ground = pd.read_csv(file_true)
+
+    if "Label" not in predict.columns:
+        log("ERROR", f"File {file_pred} thiếu cột Label")
+        return
+    if "Label" not in ground.columns:
+        log("ERROR", f"File {file_true} thiếu cột Label")
+        return
+
+    # --- Chuẩn hóa label ground truth ---
+    ground["Label_true"] = ground["Label"].apply(lambda x: 1 if str(x).upper() == "BENIGN" else 0)
+
+    # --- Ghép 2 file theo khóa flow ---
+    flow_keys = ["SrcIP", "SrcPort", "DstIP", "DstPort", "Proto"]
+    merged = pd.merge(
+        predict[flow_keys + ["Label"]],
+        ground[flow_keys + ["Label_true"]],
+        on=flow_keys,
+        how="inner"
+    )
+
+    if merged.empty:
+        log("WARN", "Không có flow nào trùng khớp giữa hai file!")
+        return
+
+    # --- Lấy nhãn ---
+    y_true = merged["Label_true"]
+    y_pred = merged["Label"]
+
+    # --- Tính metric ---
+    acc  = accuracy_score(y_true, y_pred)
+    prec = precision_score(y_true, y_pred, zero_division=0)
+    rec  = recall_score(y_true, y_pred, zero_division=0)
+    f1   = f1_score(y_true, y_pred, zero_division=0)
+
+    # --- In ra log ---
+    log("INFO", f"[EVAL] Matched flows: {len(merged)}")
+    log("INFO", f"[EVAL] Accuracy : {acc:.4f}")
+    log("INFO", f"[EVAL] Precision: {prec:.4f}")
+    log("INFO", f"[EVAL] Recall   : {rec:.4f}")
+    log("INFO", f"[EVAL] F1-score : {f1:.4f}")
+
+    # --- Chuẩn bị kết quả ---
+    result = pd.DataFrame([{
+        "Timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "Matched_Flows": len(merged),
+        "Accuracy": acc,
+        "Precision": prec,
+        "Recall": rec,
+        "F1_Score": f1
+    }])
+
+    # --- Ghi ra file ---
+    write_header = not os.path.exists(output_csv)
+    result.to_csv(output_csv, mode="a", index=False, header=write_header)
+
+    log("INFO", f"[EVAL] Kết quả được ghi vào: {output_csv}")
+
+# --- Main execution ---
+for run_idx in range(1, NUM_RUNS + 1):
+    csv_out = os.path.join(ACC_DIR, f"{branch}_{param}_{run_idx}.csv")
+    log_file_bpf = os.path.join(ACC_DIR, f"{branch}_{param}_{run_idx}.log")
+
+    # mở file log riêng cho run này
+    # global g_log_file
+    g_log_file = open(log_file_bpf, "a", buffering=1)
+    log('HEADER', f"=== RUN {run_idx}/{NUM_RUNS} ({branch}, param={param}) ===")
+    try:
+        # Load XDP
         run_cmd([
             "sudo", "xdp-loader", "load", iface,
             "-m", "skb",
@@ -210,29 +215,46 @@ for pps in range(10000, 100001, 10000):
             "/home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o"
         ], "Load XDP program")
 
-        p_xdp_stats = Process(target=run_xdp_stats, args=(log_run_xdp_stats, iface, MAX_TIME))
-        p_xdp_stats.start()
-        try:
-            prog_id = get_prog_id()
-        except RuntimeError:
-            unload_xdp()
-            g_log_file.close()
-            continue
+        # Shared flag giữa process
+        from multiprocessing import Manager
+        with Manager() as manager:
+            stop_flag = manager.dict()
+            stop_flag["done"] = False
 
-        call_tcpreplay_api(api_url, log_file_lanforge, pps, MAX_TIME+5)
+            # Start xdp_stats song song
+            p_xdp_stats = Process(target=run_xdp_stats, args=(log_file_bpf, iface, stop_flag))
+            p_xdp_stats.start()
 
-        # Run profiling in parallel
-        p_bpf = Process(target=run_bpftool_profiling, args=(prog_id, log_file_bpf, MAX_TIME))
-        p_perf = Process(target=run_perf_profiling, args=(svg_file, log_file_perf, MAX_TIME))
-        p_bpf.start(); p_perf.start()
-        p_bpf.join(); p_perf.join()
-        p_xdp_stats.join()
+            # Start API call (blocking bên trong)
+            p_api = Process(target=call_tcpreplay_api, args=(api_url,))
+            p_api.start()
+
+            # Chờ API hoàn tất
+            p_api.join()
+
+            # Khi API kết thúc, báo xdp_stats dừng
+            stop_flag["done"] = True
+            p_xdp_stats.join()
+
+        # Dump map to CSV
+        log('INFO', f"Dumping map to CSV -> {csv_out}")
+        run_cmd(["sudo", "/home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv", iface, "nodes.csv", csv_out],
+                "Dump XDP map to CSV", check=False)
+
+        # Evaluate results
+        evaluate_results(
+            file_pred=csv_out,
+            file_true="/home/dongtv/dtuan/training_isolation/data.csv",
+            output_csv=os.path.join(ACC_DIR, "evaluation_results.csv")
+        )
+
+        # Cleanup
         unload_xdp()
-        run_cmd(["sudo", "rm", "-rf", f"/sys/fs/bpf/{iface}"], "Remove old BPF maps", check=False)
-        log('INFO', f"Completed PPS={pps}, Run={run_idx}")
-        g_log_file.write(f"=== DONE PPS={pps}, RUN={run_idx}, TIME={time.strftime('%Y-%m-%d %H:%M:%S')} ===\n\n")
-        g_log_file.close()
-        time.sleep(3)
+        run_cmd(["sudo", "rm", "-rf", f"/sys/fs/bpf/{iface}"],
+                "Remove old BPF maps", check=False)
 
-log('HEADER', "=== All tests completed ===")
-g_system_log.close()
+        log('INFO', f"Completed run {run_idx}/{NUM_RUNS}")
+        g_log_file.write(f"=== DONE RUN={run_idx}, TIME={time.strftime('%Y-%m-%d %H:%M:%S')} ===\n\n")
+
+    finally:
+        g_log_file.close()

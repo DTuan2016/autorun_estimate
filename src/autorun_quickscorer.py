@@ -174,9 +174,9 @@ run_cmd(["sudo", "pkill", "-9", "perf"], "Kill stray perf", check=False)
 # --- Main loop ---
 # model_params = list(range(10, 101, 20)) + [100]
 model_params = [10]
-model_sizes = [8, 16, 64]
+model_sizes = [32]
 
-for pps in range(10000, 100001, 10000):
+for pps in range(10000, 150001, 10000):
     for run_idx in range(1, NUM_RUNS + 1):
         for m in model_params:
             for sz in model_sizes:
@@ -192,15 +192,20 @@ for pps in range(10000, 100001, 10000):
                 log('HEADER', f"=== PPS={pps}, Run {run_idx}/{NUM_RUNS}, Model rf_{m}_{sz} ===")
                 g_log_file.write(f"=== PPS={pps}, RUN={run_idx}, BRANCH={branch}, PARAM={param}, MODEL=rf_{m}_{sz}, TIME={time.strftime('%Y-%m-%d %H:%M:%S')} ===\n")
 
-                # --- Step 1: Run rf2qs.py ---
+                #--- Step 1: Run rf2qs.py ---
                 os.chdir(XDP_PROG_DIR1)
                 log('INFO', f"Đã cd vào {XDP_PROG_DIR1}")
                 log('INFO', f"Running python3 {RF2QS_PATH} --model {model_file}")
                 run_cmd(["python3", RF2QS_PATH, "--model", model_file], "Run rf2qs.py", check=True)
+                
                 # --- Step 2: Build XDP program ---
                 log('INFO', f"Building XDP program in {XDP_PROG_DIR}")
                 run_cmd(["make", "-C", XDP_PROG_DIR], "Build XDP program")
                 os.chdir(XDP_PROG_DIR1)
+                
+                # os.chdir(EBPF_CLASSIFIER)
+                # log('INFO', f"Running python3 {EBPF_CLASSIFIER} {iface} {output_folder}")
+                # run_cmd(["python3", "nn_filter_xdp.py","{iface}", "{output_folder}", "-S"], "Run scripts", check=True)
                 # --- Step 3: Load XDP program ---
                 run_cmd([
                     "sudo", "xdp-loader", "load", iface,
