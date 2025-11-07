@@ -1,8 +1,21 @@
 from flask import Flask, request, jsonify
 import subprocess
 import threading
+import yaml
+import os
 
 app = Flask(__name__)
+
+config = "config.yaml"
+
+with open(config, "r") as f:
+    cfg = yaml.safe_load(f)
+
+LOG_LANFORGE = cfg["results"]["lanforge"]
+os.mkdir(LOG_LANFORGE)
+PCAP_FILE = cfg["results"]["pcap_file"]
+SCRIPTS_REPLAY = cfg["scripts_tcpreplay"]
+IFACE = cfg["iface_lanforge"]
 
 def run_async(cmd):
     """Run tcpreplay in background"""
@@ -25,9 +38,9 @@ def run_tcpreplay():
         return jsonify({"status": "error", "message": "speed must be between 10000 and 100000"}), 400
 
     cmd = [
-        "/home/lanforge/Desktop/scripts_tcpreplay.sh",
-        "enp1s0f1",
-        "/home/lanforge/Desktop/pcap/data_portmap1.pcap",
+        SCRIPTS_REPLAY,
+        IFACE,
+        PCAP_FILE,
         str(speed),
         "125",
         log_file
@@ -44,7 +57,7 @@ def run_tcpreplay():
 @app.route("/run_acc", methods=["POST"])
 def run_acc():
     """Blocking version — chỉ trả về khi tcpreplay kết thúc"""
-    cmd = ["sudo", "tcpreplay", "-i", "enp1s0f1", "--limit=10000", "/home/lanforge/Desktop/pcap/data_portmap1.pcap"]
+    cmd = ["sudo", "tcpreplay", "-i", IFACE, "--limit=10000", PCAP_FILE]
     result = subprocess.run(cmd, capture_output=True, text=True)
 
     return jsonify({

@@ -7,22 +7,15 @@ import signal
 from colorama import Fore, Style, init
 from multiprocessing import Process, Manager
 import argparse
-
-# --- Initialize colorama ---
-init(autoreset=True)
-
-# --- Color definitions ---
-COLOR_INFO = Fore.GREEN
-COLOR_WARN = Fore.YELLOW
-COLOR_ERROR = Fore.RED
-COLOR_DEBUG = Fore.CYAN
-COLOR_HEADER = Fore.MAGENTA + Style.BRIGHT
-COLOR_RESET = Style.RESET_ALL
-
+import yaml
+from logger import (
+    init_logger, set_run_log, close_run_log, log
+)
 # --- Parse CLI arguments ---
 parser = argparse.ArgumentParser(description="Automated XDP profiling runner")
 parser.add_argument("--branch", required=True, help="Tên nhánh (ví dụ: knn_threshold)")
 parser.add_argument("--param", required=True, help="Tham số (ví dụ: 200)")
+parser.add_argument("--config", default="/home/dongtv/dtuan/autorun/config.yaml", help="Đường dẫn file config YAML")
 parser.add_argument("--num-runs", type=int, default=5, help="Số lần lặp lại (mặc định: 5)")
 parser.add_argument("--iface", default="eno3", help="Tên interface (mặc định: eno3)")
 parser.add_argument("--api-url", default="http://192.168.101.238:20168/run_acc", help="URL API để replay traffic")
@@ -34,33 +27,27 @@ NUM_RUNS = args.num_runs
 iface = args.iface
 api_url = args.api_url
 
-# --- Directories ---
-BASEDIR = "/home/dongtv/dtuan/autorun"
-ACC_DIR = os.path.join(BASEDIR, "run_accuracy")
-LOG_FILE = os.path.join(BASEDIR, "acc_run.log")
-os.makedirs(ACC_DIR, exist_ok=True)
+# --- Load config file ---
+with open(args.config, "r") as f:
+    cfg = yaml.safe_load(f)
+
+BASEDIR = cfg["base_dir"]
+iface = cfg["iface"]
+
+XDP_KERN_OBJ = cfg["xdp_program"]["kern_obj"]
+XDP_STATS_BIN = cfg["xdp_program"]["stats_bin"]
+XDP_DUMP_BIN = cfg["xdp_program"]["dump_bin"]
+
+GROUND_TRUTH = cfg["dataset"]["ground_truth"]
+ACC_DIR = os.path.join(BASEDIR, cfg["dataset"]["output_dir_acc"])
+LOG_FILE = os.path.join(BASEDIR, cfg["logging"]["main_log"])
+
+# --- Init logger ---
+init_logger(LOG_FILE)
 
 # --- Logging setup ---
 g_system_log = open(LOG_FILE, "a", buffering=1)
 g_log_file = None
-
-def log(level, message, to_file=True):
-    global g_system_log
-    if level == 'INFO': color, prefix = COLOR_INFO, '[INFO]'
-    elif level == 'WARN': color, prefix = COLOR_WARN, '[WARN]'
-    elif level == 'ERROR': color, prefix = COLOR_ERROR, '[ERROR]'
-    elif level == 'DEBUG': color, prefix = COLOR_DEBUG, '[DEBUG]'
-    elif level == 'HEADER': color, prefix = COLOR_HEADER, '==='
-    else: color, prefix = COLOR_RESET, ''
-    msg = f"{prefix} {message}"
-    print(f"{color}{msg}{COLOR_RESET}")
-    timestamp = time.strftime("[%Y-%m-%d %H:%M:%S]")
-    if g_system_log:
-        g_system_log.write(f"{timestamp} {msg}\n")
-        g_system_log.flush()
-    if to_file and g_log_file:
-        g_log_file.write(f"{timestamp} {msg}\n")
-        g_log_file.flush()
 
 # --- Run shell command ---
 def run_cmd(cmd, desc, check=True):
@@ -88,7 +75,7 @@ def unload_xdp():
 # --- Run xdp_stats (until stop signal) ---
 def run_xdp_stats(log_file_path, iface, stop_flag):
     log('DEBUG', f"Starting xdp_stats on {iface} (wait until API done)...", to_file=False)
-    cmd = ["sudo", "/home/dongtv/dtuan/xdp-program/xdp_prog/xdp_stats", "--dev", iface, "--load-csv"]
+    cmd = ["sudo", XDP_STATS_BIN, "--dev", iface, "--load-csv"]
     with open(log_file_path, "a", buffering=1) as f:
         proc = subprocess.Popen(cmd, stdout=f, stderr=subprocess.STDOUT, preexec_fn=os.setsid)
         log('INFO', f"[XDP_STATS] Started (PID={proc.pid})", to_file=False)
@@ -212,7 +199,7 @@ for run_idx in range(1, NUM_RUNS + 1):
             "-m", "skb",
             "-n", "xdp_anomaly_detector",
             "-p", f"/sys/fs/bpf/{iface}",
-            "/home/dongtv/dtuan/xdp-program/xdp_prog/xdp_prog_kern.o"
+            XDP_KERN_OBJ
         ], "Load XDP program")
 
         # Shared flag giữa process
@@ -238,13 +225,13 @@ for run_idx in range(1, NUM_RUNS + 1):
 
         # Dump map to CSV
         log('INFO', f"Dumping map to CSV -> {csv_out}")
-        run_cmd(["sudo", "/home/dongtv/dtuan/xdp-program/xdp_prog/dump_map_to_csv", iface, "nodes.csv", csv_out],
+        run_cmd(["sudo", XDP_DUMP_BIN, iface, "nodes.csv", csv_out],
                 "Dump XDP map to CSV", check=False)
 
         # Evaluate results
         evaluate_results(
             file_pred=csv_out,
-            file_true="/home/dongtv/dtuan/training_isolation/data.csv",
+            file_true=GROUND_TRUTH,
             output_csv=os.path.join(ACC_DIR, "evaluation_results.csv")
         )
 
