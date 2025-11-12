@@ -11,3 +11,5 @@ acc_run.log
 autorun.py
 
 .venv/
+
+src/__pycache__

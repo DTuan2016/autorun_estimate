@@ -15,7 +15,7 @@ import yaml
 parser = argparse.ArgumentParser(description="Automated XDP profiling runner")
 parser.add_argument("--branch", required=True, help="Tên branch (ví dụ: knn_threshold)")
 parser.add_argument("--param", required=True, help="Thông số thuật toán (ví dụ: 200)")
-parser.add_argument("--config", default="/home/dongtv/dtuan/autorun/config.yml", help="Đường dẫn file config YAML")
+parser.add_argument("--config", default="/home/security/dtuan/autorun_estimate/config_pi.yml", help="Đường dẫn file config YAML")
 parser.add_argument("--max-time", type=int, default=120, help="Thời gian chạy mỗi lần (mặc định: 120s)")
 parser.add_argument("--num-runs", type=int, default=5, help="Số lần lặp lại mỗi mức PPS (mặc định: 5)")
 args = parser.parse_args()
@@ -40,13 +40,14 @@ XDP_LOADER = cfg["xdp_program"]["xdp_loader"]
 
 GROUND_TRUTH = cfg["dataset"]["ground_truth"]
 LOG_FILE = os.path.join(BASEDIR, cfg["logging"]["main_log"])
-BPF_DIR = os.path.join(BASEDIR, cfg["results"]["bpf"])
-PERF_DIR = os.path.join(BASEDIR, cfg["results"]["perf"])
+RESULTS_DIR = cfg["all_results_dir"]
+BPF_DIR = os.path.join(RESULTS_DIR, cfg["results"]["bpf"])
+PERF_DIR = os.path.join(RESULTS_DIR, cfg["results"]["perf"])
 LANFORGE_DIR = cfg["results"]["lanforge"]
 XDP_PROG_DIR = cfg["xdp_prog_dir"]
 XDP_PROG_DIR1 = cfg["xdp_prog_dir1"]
 THROUGHPUT_SCRIPT = cfg["xdp_program"]["throughput_script"]
-THROUGHPUT_DIR = os.path.join(BASEDIR, cfg["results"]["throughput"])
+THROUGHPUT_DIR = os.path.join(RESULTS_DIR, cfg["results"]["throughput"])
 if branch == "randforest" or "svm":
     PYTHON_SCRIPS = cfg["xdp_program"]["python_RF"]
 else:
@@ -91,7 +92,7 @@ def get_prog_id():
     except subprocess.CalledProcessError as e:
         log('ERROR', f"Failed to run bpftool: {e}")
         raise RuntimeError("bpftool failed.")
-    match = re.search(r'^(\d+):\s+(ext)\s+name\s+xdp_anomaly_detector', bpftool_out, re.MULTILINE)
+    match = re.search(r'^(\d+):\s+(xdp)\s+name\s+xdp_anomaly_detector', bpftool_out, re.MULTILINE)
     if not match:
         log('ERROR', "No XDP program named 'xdp_anomaly_detector' found!")
         raise RuntimeError("No XDP program found!")
@@ -143,20 +144,20 @@ def run_perf_profiling(svg_file, log_file_path, duration):
     log('DEBUG', f"Starting perf ({duration}s)...", to_file=False)
     with open(log_file_path, "a", buffering=1) as f:
         proc = subprocess.Popen(
-            ["sudo", FLAMEGRAPH_SCRIPT, svg_file, str(duration)],
+            ["sudo", FLAMEGRAPH_SCRIPT, svg_file, str(duration), str(0)],
             stdout=f, stderr=subprocess.STDOUT, preexec_fn=os.setsid
         )
         log('INFO', f"[PERF] Started (PID={proc.pid})", to_file=False)
         proc.wait()
         log('INFO', "[PERF] Completed.", to_file=False)
 
-def run_throughput_latency(branch, param, pps, run_idx, duration):
+def run_throughput_latency(branch, param, pps, run_idx, m, sz, duration):
     """
     Đo throughput/latency song song trong thời gian chỉ định.
-    Kết quả được ghi vào file CSV theo format {branch}_{param}_{pps}_{run_idx}.csv
+    Kết quả được ghi vào file CSV theo format {branch}_{param}_{pps}_{run_idx}_{m}_{sz}.csv
     """
-    output_csv = os.path.join(THROUGHPUT_DIR, f"{branch}_{param}_{pps}_{run_idx}.csv")
-    log_file_path = os.path.join(THROUGHPUT_DIR, f"log_{branch}_{param}_{pps}_{run_idx}.txt")
+    output_csv = os.path.join(THROUGHPUT_DIR, f"{branch}_{param}_{pps}_{run_idx}_{m}_{sz}.csv")
+    log_file_path = os.path.join(THROUGHPUT_DIR, f"log_{branch}_{param}_{pps}_{run_idx}_{m}_{sz}.txt")
 
     cmd = [
         "sudo", "python3", THROUGHPUT_SCRIPT,
@@ -205,8 +206,9 @@ if branch == "randforest" :
     model_params = [10, 20]
     model_sizes = [8, 16, 32, 64]
 elif branch == "quickscore":
-    model_params = [10, 20, 40, 60, 80, 100]
-    model_sizes = [8, 16, 32, 64]
+    model_params = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+    model_sizes = [8, 16, 32]
+    PYTHON_SCRIPS = cfg["xdp_program"]["python_quickXDP"]
 else:
     model_params = [1]
     model_sizes = [1]
@@ -227,11 +229,26 @@ for pps in range(10000, 150001, 10000):
                 log('HEADER', f"=== PPS={pps}, Run {run_idx}/{NUM_RUNS}, Model rf_{m}_{sz} ===")
                 g_log_file.write(f"=== PPS={pps}, RUN={run_idx}, BRANCH={branch}, PARAM={param}, MODEL=rf_{m}_{sz}, TIME={time.strftime('%Y-%m-%d %H:%M:%S')} ===\n")
                 if branch == "base":
-                    log('INFO', "[BASE] Bỏ qua bước XDP, chỉ đo perf và tcpreplay API")
+                    log('INFO', f"Building XDP program in {XDP_PROG_DIR}")
+                    run_cmd(["make", "-C", XDP_PROG_DIR], "Build XDP program")
+                    os.chdir(XDP_PROG_DIR1)
+                    
+                    run_cmd([
+                        "sudo", XDP_LOADER, "--dev", iface,
+                        "-S",
+                        "--progname", "xdp_anomaly_detector"
+                    ], "Load XDP program")
+
                     # --- Step 1: Gọi tcpreplay API ---
                     call_tcpreplay_api(api_url, log_file_lanforge, pps, MAX_TIME + 5)
                     # --- Step 2: Chạy perf profiling ---
-                    run_perf_profiling(svg_file, log_file_perf, MAX_TIME)
+                    p_through = Process(target=run_throughput_latency, args=(branch, param, pps, run_idx, m, sz, MAX_TIME))
+                    p_perf = Process(target=run_perf_profiling, args=(svg_file, log_file_perf, MAX_TIME))
+                    p_perf.start(); p_through.start()
+                    p_perf.join(); p_through.join()
+                    # run_perf_profiling(svg_file, log_file_perf, MAX_TIME)
+                    unload_xdp()
+                    run_cmd(["sudo", "rm", "-rf", f"/sys/fs/bpf/{iface}"], "Remove old BPF maps", check=False)
                     log('INFO', f"[BASE] Completed PPS={pps}, Run={run_idx}")
                     g_log_file.write(f"=== DONE BASE PPS={pps}, RUN={run_idx}, MODEL=rf_{m}_{sz}, TIME={time.strftime('%Y-%m-%d %H:%M:%S')} ===\n\n")
                     time.sleep(3)
@@ -243,6 +260,7 @@ for pps in range(10000, 150001, 10000):
                 log('INFO', f"Running python3 {PYTHON_SCRIPS} --model {model_file}")
                 if branch == "randforest":
                     run_cmd(["python3", PYTHON_SCRIPS, "--max_tree", str(m), "--max_leaves", str(sz)], "Run read_model_to_map.py", check=True)
+                    run_cmd(["sudo", "xdp-loader", "unload", "eth0", "--all"], "Unload", check=True)
                 elif branch == "quickscore":
                     run_cmd(["python3", PYTHON_SCRIPS, "--model", model_file], "Run rf2qs.py", check=True)
                 else:
@@ -270,7 +288,7 @@ for pps in range(10000, 150001, 10000):
                 call_tcpreplay_api(api_url, log_file_lanforge, pps, MAX_TIME+5)
 
                 # --- Step 6: Run profiling in parallel ---
-                p_through = Process(target=run_throughput_latency, args=(branch, param, pps, run_idx, MAX_TIME))
+                p_through = Process(target=run_throughput_latency, args=(branch, param, pps, run_idx, m, sz, MAX_TIME))
                 p_bpf = Process(target=run_bpftool_profiling, args=(prog_id, log_file_bpf, MAX_TIME))
                 p_perf = Process(target=run_perf_profiling, args=(svg_file, log_file_perf, MAX_TIME))
                 p_bpf.start(); p_perf.start(); p_through.start()

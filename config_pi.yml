@@ -1,7 +1,8 @@
-base_dir: "/home/security/dtuan/autorun"
+base_dir: "/home/security/dtuan/autorun_estimate"
+all_results_dir: "/home/security/dtuan/autorun_estimate/all_results"
 iface: "eth0"
-api_url_run_acc: "http://192.168.51.30:20168/run_acc"
-api_url_run: "http://192.168.51.30:20168/run"
+api_url_run_acc: "http://192.168.51.40:20168/run_acc"
+api_url_run: "http://192.168.51.40:20168/run"
 flamegraph_script: "/home/security/dtuan/FlameGraph/run_perf.sh"
 xdp_prog_dir: "/home/security/dtuan/xdp-program"
 xdp_prog_dir1: "/home/security/dtuan/xdp-program/xdp_prog"
@@ -14,7 +15,7 @@ xdp_program:
   xdp_loader: "/home/security/dtuan/xdp-program/xdp_prog/xdp_loader"
   python_quickXDP: "/home/security/dtuan/xdp-program/xdp_prog/rf2qs.py"
   python_RF: "/home/security/dtuan/xdp-program/xdp_prog/read_model_to_map.py"
-  throughput_script : "/home/security/dtuan/autorun/src/estimate_throughput_latency.py"
+  throughput_script : "/home/security/dtuan/autorun_estimate/src/estimate_throughput_latency.py"
 
 dataset:
   ground_truth: "/home/security/dtuan/security_paper/data/data.csv"

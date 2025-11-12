@@ -87,9 +87,9 @@ def main(map_path: str,
 
             writer.writerow([
                 timestamp_str,
-                round(throughput, 6),  # MB/s
+                round(throughput, 6),  # B/s
                 round(pps, 3),
-                round(latency, 3)      # µs
+                round(latency, 3)      # ns
             ])
             f.flush()
 
