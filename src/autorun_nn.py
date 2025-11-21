@@ -38,6 +38,7 @@ RESULTS_DIR = cfg["all_results_dir"]
 LOG_FILE = os.path.join(BASEDIR, cfg["logging"]["main_log"])
 BPF_DIR = os.path.join(RESULTS_DIR, cfg["results"]["bpf"])
 PERF_DIR = os.path.join(RESULTS_DIR, cfg["results"]["perf"])
+THROUGHPUT_DIR = os.path.join(RESULTS_DIR, cfg["results"]["throughput"])
 LANFORGE_DIR = cfg["results"]["lanforge"]
 NN_SCRIPTS = cfg["nn_scripts_path"]
 OUT_FOLDER_NN = cfg["folder_out_nn"]
@@ -46,7 +47,7 @@ OUT_FOLDER_NN = cfg["folder_out_nn"]
 init_logger(LOG_FILE)
 
 # --- Prepare folders ---
-for d in [BPF_DIR, PERF_DIR, OUT_FOLDER_NN]:
+for d in [BPF_DIR, PERF_DIR, THROUGHPUT_DIR, OUT_FOLDER_NN]:
     os.makedirs(d, exist_ok=True)
 
 # --- Helper: run shell command ---
@@ -92,7 +93,7 @@ def run_perf_profiling(svg_file, log_file_path, duration):
     log('DEBUG', f"Starting perf ({duration}s)...")
     with open(log_file_path, "a", buffering=1) as f:
         proc = subprocess.Popen(
-            ["bash", FLAMEGRAPH_SCRIPT, svg_file, str(duration), str(0)],
+            ["bash", FLAMEGRAPH_SCRIPT, svg_file, str(duration), str(1)],
             stdout=f, stderr=subprocess.STDOUT, preexec_fn=os.setsid
         )
         log('INFO', f"[PERF] Started (PID={proc.pid})")
@@ -135,15 +136,15 @@ unload_xdp()
 run_cmd(["sudo", "rm", "-rf", f"/sys/fs/bpf/{iface}"], "Remove old BPF maps", check=False)
 run_cmd(["sudo", "pkill", "-9", "bpftool"], "Kill stray bpftool", check=False)
 run_cmd(["sudo", "pkill", "-9", "perf"], "Kill stray perf", check=False)
-
+run_cmd(["sudo", "pkill", "-f", "/home/security/dtuan/ebpf-classifier/nn-filter/nn_filter_xdp.py"], "Kill stray nn_filter_xdp", check=False)
 # --- Main loop ---
 for pps in range(10000, 150001, 10000):
     for run_idx in range(1, NUM_RUNS + 1):
-        log_file_bpf = os.path.join(BPF_DIR, f"log_{branch}_{param}_{pps}_{run_idx}.txt")
-        log_file_perf = os.path.join(PERF_DIR, f"log_{branch}_{param}_{pps}_{run_idx}.txt")
-        log_throughput = os.path.join(OUT_FOLDER_NN, f"log_{branch}_{param}_{pps}_{run_idx}.txt")
-        svg_file = f"{branch}_{param}_{pps}_{run_idx}.svg"
-        log_file_lanforge = os.path.join(LANFORGE_DIR, f"log_{branch}_{param}_{pps}_{run_idx}.txt")
+        log_file_bpf = os.path.join(BPF_DIR, f"log_{branch}_{param}_{pps}_{run_idx}_1_1.txt")
+        log_file_perf = os.path.join(PERF_DIR, f"log_{branch}_{param}_{pps}_{run_idx}_1_1.txt")
+        log_throughput = os.path.join(THROUGHPUT_DIR, f"{branch}_{param}_{pps}_{run_idx}_1_1.csv")
+        svg_file = f"{branch}_{param}_{pps}_{run_idx}_1_1.svg"
+        log_file_lanforge = os.path.join(LANFORGE_DIR, f"log_{branch}_{param}_{pps}_{run_idx}_1_1.txt")
 
         log('HEADER', f"=== PPS={pps}, Run {run_idx}/{NUM_RUNS} ===")
 

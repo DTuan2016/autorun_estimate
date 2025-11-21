@@ -56,7 +56,7 @@ else:
 # --- Init logger ---
 init_logger(LOG_FILE)
 
-# --- Prepare folders ---
+# --- Prepare folders ---z
 os.makedirs(BPF_DIR, exist_ok=True)
 os.makedirs(PERF_DIR, exist_ok=True)
 os.makedirs(THROUGHPUT_DIR, exist_ok=True)
@@ -144,7 +144,7 @@ def run_perf_profiling(svg_file, log_file_path, duration):
     log('DEBUG', f"Starting perf ({duration}s)...", to_file=False)
     with open(log_file_path, "a", buffering=1) as f:
         proc = subprocess.Popen(
-            ["sudo", FLAMEGRAPH_SCRIPT, svg_file, str(duration), str(0)],
+            ["sudo", FLAMEGRAPH_SCRIPT, svg_file, str(duration), str(1)],
             stdout=f, stderr=subprocess.STDOUT, preexec_fn=os.setsid
         )
         log('INFO', f"[PERF] Started (PID={proc.pid})", to_file=False)
@@ -204,10 +204,14 @@ run_cmd(["sudo", "pkill", "-9", "perf"], "Kill stray perf", check=False)
 # --- Main loop ---
 if branch == "randforest" :
     model_params = [10, 20]
+    # model_params = [20]
     model_sizes = [8, 16, 32, 64]
+    # model_sizes = [32, 64]
+    
 elif branch == "quickscore":
-    model_params = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-    model_sizes = [8, 16, 32]
+    # model_params = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+    model_params = [10, 20, 30, 40, 50, 60]
+    model_sizes = [8, 16, 32, 64]
     PYTHON_SCRIPS = cfg["xdp_program"]["python_quickXDP"]
 else:
     model_params = [1]

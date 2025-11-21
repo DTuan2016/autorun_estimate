@@ -21,8 +21,8 @@ class Accounting(ctypes.Structure):
     _fields_ = [
         ("time_in", ctypes.c_uint64),
         ("proc_time", ctypes.c_uint64),
-        ("total_pkts", ctypes.c_uint32),
-        ("total_bytes", ctypes.c_uint32),
+        ("total_pkts", ctypes.c_uint64),
+        ("total_bytes", ctypes.c_uint64),
     ]
 
 
