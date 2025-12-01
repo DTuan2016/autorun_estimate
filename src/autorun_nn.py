@@ -93,7 +93,7 @@ def run_perf_profiling(svg_file, log_file_path, duration):
     log('DEBUG', f"Starting perf ({duration}s)...")
     with open(log_file_path, "a", buffering=1) as f:
         proc = subprocess.Popen(
-            ["bash", FLAMEGRAPH_SCRIPT, svg_file, str(duration), str(1)],
+            ["bash", FLAMEGRAPH_SCRIPT, svg_file, str(duration), "all"],
             stdout=f, stderr=subprocess.STDOUT, preexec_fn=os.setsid
         )
         log('INFO', f"[PERF] Started (PID={proc.pid})")

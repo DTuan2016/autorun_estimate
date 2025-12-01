@@ -363,14 +363,64 @@ FILENAME_REGEX = re.compile(
 #  READ CSV
 # -------------------------------------------------------
 
+# def read_csv_metrics(filename):
+#     """
+#     Trả về LIST dữ liệu thô theo từng dòng
+#     """
+#     throughputs, pps_list, latencies = [], [], []
+
+#     with open(filename, newline='') as f:
+#         reader = csv.DictReader(f)
+#         for row in reader:
+
+#             # Throughput
+#             if "throughput_Bps" in row:
+#                 thr = float(row["throughput_Bps"])
+#             elif "Throughput_Mbps" in row:
+#                 thr = float(row["Throughput_Mbps"]) * 1_000_000 / 8
+#             else:
+#                 continue
+
+#             # PPS
+#             if "pps" in row:
+#                 pps = float(row["pps"])
+#             elif "PPS" in row:
+#                 pps = float(row["PPS"])
+#             else:
+#                 continue
+
+#             # Latency
+#             if "latency_ns" in row:
+#                 lat = float(row["latency_ns"])
+#             elif "Avg_Latency_ns" in row:
+#                 lat = float(row["Avg_Latency_ns"])
+#             else:
+#                 continue
+
+#             throughputs.append(thr)
+#             pps_list.append(pps)
+#             latencies.append(lat)
+
+#     return throughputs, pps_list, latencies
+
 def read_csv_metrics(filename):
     """
     Trả về LIST dữ liệu thô theo từng dòng
     """
+    import csv
+
     throughputs, pps_list, latencies = [], [], []
 
     with open(filename, newline='') as f:
+        # Đọc header
         reader = csv.DictReader(f)
+        fieldnames = reader.fieldnames  # giữ lại header
+
+        # Bỏ 15 dòng sau header
+        for _ in range(15):
+            next(reader, None)
+
+        # Bắt đầu parse dữ liệu
         for row in reader:
 
             # Throughput
@@ -545,7 +595,7 @@ def plot_multiple_keys(summary_rows, keys,
     fig1, ax1 = plt.subplots(figsize=(12, 5))
     for pps_vals, thr_vals, label, marker, rows in all_thr:
 
-        ax1.plot(pps_vals, thr_vals, marker=marker, label=label)
+        ax1.plot(pps_vals, thr_vals, marker=marker, linestyle="--", label=label)
 
         # CI 95%
         stds = [r["throughput_std"] for r in rows]
@@ -627,11 +677,15 @@ if __name__ == "__main__":
 
     keys_to_plot = [
         {"branch": "base", "param": "3", "max_tree": 1, "max_leaves": 1},
-        # {"branch": "quickscore", "param": "2", "max_tree": 20, "max_leaves": 32},
-        # {"branch": "quickscore", "param": "2", "max_tree": 100, "max_leaves": 32},
+        {"branch": "quickscore", "param": "3", "max_tree": 20, "max_leaves": 64},
+        # {"branch": "quickscore", "param": "3", "max_tree": 60, "max_leaves": 64},
+        # {"branch": "quickscore", "param": "3", "max_tree": 70, "max_leaves": 32},
+        # {"branch": "quickscore", "param": "3", "max_tree": 80, "max_leaves": 32},
+        # {"branch": "quickscore", "param": "3", "max_tree": 90, "max_leaves": 32},
+        {"branch": "quickscore", "param": "3", "max_tree": 100, "max_leaves": 32},
         {"branch": "randforest", "param": "3", "max_tree": 20, "max_leaves": 64},
         {"branch": "svm", "param": "3", "max_tree": 1, "max_leaves": 1},
-        {"branch": "nn", "param": "3", "max_tree": 1, "max_leaves": 1}
+        # {"branch": "nn", "param": "3", "max_tree": 1, "max_leaves": 1}
     ]
 
     plot_multiple_keys(summary_rows, keys_to_plot)

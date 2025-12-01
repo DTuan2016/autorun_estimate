@@ -144,7 +144,7 @@ def run_perf_profiling(svg_file, log_file_path, duration):
     log('DEBUG', f"Starting perf ({duration}s)...", to_file=False)
     with open(log_file_path, "a", buffering=1) as f:
         proc = subprocess.Popen(
-            ["sudo", FLAMEGRAPH_SCRIPT, svg_file, str(duration), str(1)],
+            ["sudo", FLAMEGRAPH_SCRIPT, svg_file, str(duration), "all"],
             stdout=f, stderr=subprocess.STDOUT, preexec_fn=os.setsid
         )
         log('INFO', f"[PERF] Started (PID={proc.pid})", to_file=False)
@@ -209,9 +209,12 @@ if branch == "randforest" :
     # model_sizes = [32, 64]
     
 elif branch == "quickscore":
-    # model_params = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-    model_params = [10, 20, 30, 40, 50, 60]
-    model_sizes = [8, 16, 32, 64]
+    # model_params = [70, 80, 90, 100]
+    # model_params = [10, 20, 30, 40, 50, 60]
+    # model_sizes = [8, 16, 32, 64]
+    # model_sizes = [8, 16, 32]
+    model_params = [20]
+    model_sizes = [64]
     PYTHON_SCRIPS = cfg["xdp_program"]["python_quickXDP"]
 else:
     model_params = [1]
@@ -263,12 +266,21 @@ for pps in range(10000, 150001, 10000):
                 log('INFO', f"Đã cd vào {XDP_PROG_DIR1}")
                 log('INFO', f"Running python3 {PYTHON_SCRIPS} --model {model_file}")
                 if branch == "randforest":
-                    run_cmd(["python3", PYTHON_SCRIPS, "--max_tree", str(m), "--max_leaves", str(sz)], "Run read_model_to_map.py", check=True)
+                    run_cmd([
+                        "python3",
+                        PYTHON_SCRIPS,
+                        "--max_tree", str(m),
+                        "--max_leaves", str(sz),
+                        "--iface", iface,
+                        "--model_folder", "/home/security/dtuan/security_paper/rf",
+                        "--home_folder", "/home/security"
+                    ], "Run read_model_to_map.py", check=True)
                     run_cmd(["sudo", "xdp-loader", "unload", "eth0", "--all"], "Unload", check=True)
                 elif branch == "quickscore":
                     run_cmd(["python3", PYTHON_SCRIPS, "--model", model_file], "Run rf2qs.py", check=True)
                 else:
-                    run_cmd(["python3", PYTHON_SCRIPS], "Run read_model_to_map.py", check=True)
+                    run_cmd(["python3", PYTHON_SCRIPS, "--svm_model", "/home/security/dtuan/security_paper/svm/models/SVM-Linear.pkl", \
+                             "--scaler", "/home/security/dtuan/security_paper/svm/scalers/scaler_SVM-Linear.pkl"], "Run read_model_to_map.py", check=True)
                 # --- Step 2: Build XDP program ---
                 log('INFO', f"Building XDP program in {XDP_PROG_DIR}")
                 run_cmd(["make", "-C", XDP_PROG_DIR], "Build XDP program")
