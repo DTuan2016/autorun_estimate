@@ -1,0 +1,42 @@
+home_dir: "/home/quocanh24"
+base_dir: "../../autorun_estimate"
+all_results_dir: "../../autorun_estimate/all_results"
+iface: "eth0"
+api_url_run_acc: "http://100.101.142.68:16082/run_acc"
+api_url_run: "http://100.101.142.68:16082/run"
+flamegraph_script: "../../FlameGraph/run_perf.sh"
+xdp_prog_dir: "../../xdp-program"
+xdp_prog_dir1: "../../xdp-program/xdp_prog"
+rf_model_dir: "../../security_paper/rf"
+
+xdp_program:
+  kern_obj: "../../xdp-program/xdp_prog/xdp_prog_kern.o"
+  stats_bin: "../../xdp-program/xdp_prog/xdp_stats"
+  dump_bin: "../../xdp-program/xdp_prog/dump_map_to_csv"
+  xdp_loader: "../../xdp-program/xdp_prog/xdp_loader"
+  python_quickXDP: "../../xdp-program/xdp_prog/rf2qs.py"
+  python_RF: "../../xdp-program/xdp_prog/read_model_to_map.py"
+  throughput_script : "../../autorun_estimate/src/estimate_throughput_latency.py"
+  server_scripts : "../../server.py"
+
+dataset:
+  ground_truth: "../../security_paper/data/data.csv"
+  output_dir_acc: "run_accuracy"
+
+nn_scripts_path: "../../ebpf-classifier/nn-filter/nn_filter_xdp.py"
+folder_out_nn: "../../ebpf-classifier/nn-filter/out"
+logging:
+  main_log: "acc_run.log"
+
+# pcap_file: "/home/lanforge/Desktop/pcap/full_attack.pcap"
+pcap_file: "/home/lanforge/Desktop/pcap/pi4_data.pcap"
+scripst_tcpreplay: "/home/lanforge/Desktop/scripst_tcpreplay.sh"
+iface_lanforge: "enp1s0f0"
+
+results:
+  bpf: "results_bpf"
+  perf: "results_perf"
+  lanforge: "/home/lanforge/Desktop/app/quocanh"
+  system_log: "log_all.log"
+  throughput: "results_throughput"
+  power: "results_power"

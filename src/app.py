@@ -3,10 +3,14 @@ import subprocess
 import threading
 import yaml
 import os
+import argparse
 
 app = Flask(__name__)
-
-config = "config.yaml"
+parser = argparse.ArgumentParser()
+parser.add_argument("--config_file", type=str, help="Path to config file")
+parser.add_argument("--port", type=int, help="Fill the port that you want to host server")
+args = parser.parse_args()
+config = args.config_file
 
 with open(config, "r") as f:
     cfg = yaml.safe_load(f)
@@ -16,6 +20,7 @@ os.mkdir(LOG_LANFORGE)
 PCAP_FILE = cfg["results"]["pcap_file"]
 SCRIPTS_REPLAY = cfg["scripts_tcpreplay"]
 IFACE = cfg["iface_lanforge"]
+
 
 def run_async(cmd):
     """Run tcpreplay in background"""
@@ -34,7 +39,7 @@ def run_tcpreplay():
     speed = int(data.get("speed", 100000))
 
     # Validate input
-    if not (10000 <= speed <= 100000):
+    if not (10000 <= speed <= 200000):
         return jsonify({"status": "error", "message": "speed must be between 10000 and 100000"}), 400
 
     cmd = [
@@ -68,4 +73,4 @@ def run_acc():
     })
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=20168)
+    app.run(host="0.0.0.0", port=args.port)

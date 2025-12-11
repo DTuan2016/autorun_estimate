@@ -275,7 +275,7 @@ def plot_multiple_keys(
     fig2.savefig(out_energy, dpi=300)
     plt.close(fig2)
 
-    print(f"✔️ Saved: {out_power}, {out_energy}")
+    print(f"Saved: {out_power}, {out_energy}")
 
 
 def parse_args():
@@ -329,7 +329,7 @@ def plot_power_pdf(summary_rows: List[Dict], pps_target: int, out_file: str = "p
     plt.savefig(out_file, dpi=300)
     plt.close()
 
-    print(f"✔️ Saved Power PDF: {out_file}")
+    print(f"Saved Power PDF: {out_file}")
 
 def main():
     args = parse_args()

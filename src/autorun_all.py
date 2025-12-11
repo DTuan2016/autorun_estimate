@@ -2,6 +2,7 @@ import subprocess
 import re
 import requests
 import os
+from pathlib import Path
 import time
 import signal
 from multiprocessing import Process
@@ -15,7 +16,7 @@ import yaml
 parser = argparse.ArgumentParser(description="Automated XDP profiling runner")
 parser.add_argument("--branch", required=True, help="Tên branch (ví dụ: knn_threshold)")
 parser.add_argument("--param", required=True, help="Thông số thuật toán (ví dụ: 200)")
-parser.add_argument("--config", default="/home/security/dtuan/autorun_estimate/config_pi.yml", help="Đường dẫn file config YAML")
+parser.add_argument("--config", default="../../autorun_estimate/config_pi_qa.yml", help="Đường dẫn file config YAML")
 parser.add_argument("--max-time", type=int, default=120, help="Thời gian chạy mỗi lần (mặc định: 120s)")
 parser.add_argument("--num-runs", type=int, default=5, help="Số lần lặp lại mỗi mức PPS (mặc định: 5)")
 args = parser.parse_args()
@@ -47,8 +48,12 @@ LANFORGE_DIR = cfg["results"]["lanforge"]
 XDP_PROG_DIR = cfg["xdp_prog_dir"]
 XDP_PROG_DIR1 = cfg["xdp_prog_dir1"]
 THROUGHPUT_SCRIPT = cfg["xdp_program"]["throughput_script"]
+SERVER_SCRIPT = cfg["xdp_program"]["server_scripts"]
 THROUGHPUT_DIR = os.path.join(RESULTS_DIR, cfg["results"]["throughput"])
-if branch == "randforest" or "svm":
+POWER_DIR = os.path.join(RESULTS_DIR, cfg["results"]["power"])
+
+HOME_DIR = str(Path.home())
+if branch == "randforest" or branch == "svm":
     PYTHON_SCRIPS = cfg["xdp_program"]["python_RF"]
 else:
     PYTHON_SCRIPS = cfg["xdp_program"]["python_quickXDP"]
@@ -56,10 +61,11 @@ else:
 # --- Init logger ---
 init_logger(LOG_FILE)
 
-# --- Prepare folders ---z
+# --- Prepare folders ---
 os.makedirs(BPF_DIR, exist_ok=True)
 os.makedirs(PERF_DIR, exist_ok=True)
 os.makedirs(THROUGHPUT_DIR, exist_ok=True)
+os.makedirs(POWER_DIR, exist_ok=True)
 
 # --- System-wide log file ---
 g_system_log = open(LOG_FILE, "a", buffering=1)
@@ -139,17 +145,43 @@ def run_bpftool_profiling(prog_id, log_file_path, duration):
                 os.killpg(proc.pid, signal.SIGKILL)
         log('INFO', "[BPF] Profiling completed.", to_file=False)
 
-# --- Run PERF profiling ---
-def run_perf_profiling(svg_file, log_file_path, duration):
+def run_perf_profiling(svg_file, log_file_path, duration, core_id):
     log('DEBUG', f"Starting perf ({duration}s)...", to_file=False)
     with open(log_file_path, "a", buffering=1) as f:
         proc = subprocess.Popen(
-            ["sudo", FLAMEGRAPH_SCRIPT, svg_file, str(duration), "all"],
+            ["sudo", FLAMEGRAPH_SCRIPT, svg_file, str(duration), str(core_id)],
             stdout=f, stderr=subprocess.STDOUT, preexec_fn=os.setsid
         )
         log('INFO', f"[PERF] Started (PID={proc.pid})", to_file=False)
         proc.wait()
         log('INFO', "[PERF] Completed.", to_file=False)
+
+# --- Run POWER server (FIXED: Added sudo and check return code) ---
+def run_power_server(csv_path, log_file_path, duration):
+    log('DEBUG', f"Starting server for {duration}s...", to_file=False)
+    with open(log_file_path, "a", buffering=1) as f:
+        proc = subprocess.Popen(
+            # FIX: Thêm "sudo" để đảm bảo quyền truy cập cảm biến
+            ["sudo", "python3", SERVER_SCRIPT, "--csv", csv_path],
+            stdout=f, stderr=subprocess.STDOUT, preexec_fn=os.setsid
+        )
+        log('INFO', f"[POWER] Started (PID={proc.pid})", to_file=False)
+        try:
+            proc.wait(timeout=duration)  # đợi đúng duration
+        except subprocess.TimeoutExpired:
+            log('DEBUG', "[POWER] Timeout reached, sending SIGINT...", to_file=False)
+            os.killpg(proc.pid, signal.SIGINT)  # gửi SIGINT cho process group
+            try:
+                proc.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                log('WARN', "[POWER] Forcing SIGKILL...", to_file=False)
+                os.killpg(proc.pid, signal.SIGKILL)
+        
+        # FIX: Kiểm tra mã thoát
+        if proc.returncode is not None and proc.returncode != 0:
+             log('ERROR', f"[POWER] Completed with non-zero exit code: {proc.returncode}. Check {log_file_path} for errors.", to_file=False)
+        else:
+            log('INFO', "[POWER] Completed.", to_file=False)
 
 def run_throughput_latency(branch, param, pps, run_idx, m, sz, duration):
     """
@@ -200,6 +232,11 @@ unload_xdp()
 run_cmd(["sudo", "rm", "-rf", f"/sys/fs/bpf/{iface}"], "Remove old BPF maps", check=False)
 run_cmd(["sudo", "pkill", "-9", "bpftool"], "Kill stray bpftool", check=False)
 run_cmd(["sudo", "pkill", "-9", "perf"], "Kill stray perf", check=False)
+run_cmd(
+    ["sudo", "pkill", "-9", "-f", "../../server.py"],
+    "Kill stray server.py",
+    check=False
+)
 
 # --- Main loop ---
 if branch == "randforest" :
@@ -220,7 +257,7 @@ else:
     model_params = [1]
     model_sizes = [1]
     
-for pps in range(10000, 150001, 10000):
+for pps in range(10000, 200001, 10000):
     for run_idx in range(1, NUM_RUNS + 1):
         for m in model_params:
             for sz in model_sizes:
@@ -228,8 +265,14 @@ for pps in range(10000, 150001, 10000):
 
                 log_file_bpf = os.path.join(BPF_DIR, f"log_{branch}_{param}_{pps}_{run_idx}_{m}_{sz}.txt")
                 log_file_perf = os.path.join(PERF_DIR, f"log_{branch}_{param}_{pps}_{run_idx}_{m}_{sz}.txt")
-                svg_file = f"{branch}_{param}_{pps}_{run_idx}_{m}_{sz}.svg"
+                svg_file_core_0 = f"{branch}_{param}_{pps}_{run_idx}_{m}_{sz}_0.svg"
+                svg_file_core_1 = f"{branch}_{param}_{pps}_{run_idx}_{m}_{sz}_1.svg"
+                svg_file_core_2 = f"{branch}_{param}_{pps}_{run_idx}_{m}_{sz}_2.svg"
+                svg_file_core_3 = f"{branch}_{param}_{pps}_{run_idx}_{m}_{sz}_3.svg"
                 log_file_lanforge = os.path.join(LANFORGE_DIR, f"log_{branch}_{param}_{pps}_{run_idx}_{m}_{sz}.txt")
+                log_file_power = os.path.join(POWER_DIR, f"log_{branch}_{param}_{pps}_{run_idx}_{m}_{sz}.txt")
+                power_csv = os.path.join(POWER_DIR, f"{branch}_{param}_{pps}_{run_idx}_{m}_{sz}.csv")
+                
                 # log_run_xdp_stats = os.path.join(STATS_DIR, f"log_{branch}_{param}_{pps}_{run_idx}_{m}_{sz}.txt")
 
                 g_log_file = open(log_file_bpf, "a")
@@ -250,9 +293,13 @@ for pps in range(10000, 150001, 10000):
                     call_tcpreplay_api(api_url, log_file_lanforge, pps, MAX_TIME + 5)
                     # --- Step 2: Chạy perf profiling ---
                     p_through = Process(target=run_throughput_latency, args=(branch, param, pps, run_idx, m, sz, MAX_TIME))
-                    p_perf = Process(target=run_perf_profiling, args=(svg_file, log_file_perf, MAX_TIME))
-                    p_perf.start(); p_through.start()
-                    p_perf.join(); p_through.join()
+                    p_power = Process(target=run_power_server, args=(power_csv, log_file_power, MAX_TIME))
+                    p_perf0 = Process(target=run_perf_profiling, args=(svg_file_core_0, log_file_perf, MAX_TIME, 0))
+                    p_perf1 = Process(target=run_perf_profiling, args=(svg_file_core_1, log_file_perf, MAX_TIME, 1))
+                    p_perf2 = Process(target=run_perf_profiling, args=(svg_file_core_2, log_file_perf, MAX_TIME, 2))
+                    p_perf3 = Process(target=run_perf_profiling, args=(svg_file_core_3, log_file_perf, MAX_TIME, 3))
+                    p_perf0.start(); p_perf1.start(); p_perf2.start(); p_perf3.start(); p_through.start(); p_power.start()
+                    p_perf0.join(); p_perf1.join(); p_perf2.join(); p_perf3.join(); p_through.join(); p_power.join()
                     # run_perf_profiling(svg_file, log_file_perf, MAX_TIME)
                     unload_xdp()
                     run_cmd(["sudo", "rm", "-rf", f"/sys/fs/bpf/{iface}"], "Remove old BPF maps", check=False)
@@ -272,15 +319,15 @@ for pps in range(10000, 150001, 10000):
                         "--max_tree", str(m),
                         "--max_leaves", str(sz),
                         "--iface", iface,
-                        "--model_folder", "/home/security/dtuan/security_paper/rf",
-                        "--home_folder", "/home/security"
+                        "--model_folder", "../../security_paper/rf",
+                        "--home_folder", HOME_DIR
                     ], "Run read_model_to_map.py", check=True)
-                    run_cmd(["sudo", "xdp-loader", "unload", "eth0", "--all"], "Unload", check=True)
+                    run_cmd(["sudo", "xdp-loader", "unload", iface, "--all"], "Unload", check=True)
                 elif branch == "quickscore":
                     run_cmd(["python3", PYTHON_SCRIPS, "--model", model_file], "Run rf2qs.py", check=True)
                 else:
-                    run_cmd(["python3", PYTHON_SCRIPS, "--svm_model", "/home/security/dtuan/security_paper/svm/models/SVM-Linear.pkl", \
-                             "--scaler", "/home/security/dtuan/security_paper/svm/scalers/scaler_SVM-Linear.pkl"], "Run read_model_to_map.py", check=True)
+                    run_cmd(["python3", PYTHON_SCRIPS, "--svm_model", "../../security_paper/svm/models/SVM-Linear.pkl", \
+                             "--scaler", "../../security_paper/svm/scalers/scaler_SVM-Linear.pkl"], "Run read_model_to_map.py", check=True)
                 # --- Step 2: Build XDP program ---
                 log('INFO', f"Building XDP program in {XDP_PROG_DIR}")
                 run_cmd(["make", "-C", XDP_PROG_DIR], "Build XDP program")
@@ -305,10 +352,13 @@ for pps in range(10000, 150001, 10000):
 
                 # --- Step 6: Run profiling in parallel ---
                 p_through = Process(target=run_throughput_latency, args=(branch, param, pps, run_idx, m, sz, MAX_TIME))
-                p_bpf = Process(target=run_bpftool_profiling, args=(prog_id, log_file_bpf, MAX_TIME))
-                p_perf = Process(target=run_perf_profiling, args=(svg_file, log_file_perf, MAX_TIME))
-                p_bpf.start(); p_perf.start(); p_through.start()
-                p_bpf.join(); p_perf.join(); p_through.join()
+                p_power = Process(target=run_power_server, args=(power_csv, log_file_power, MAX_TIME))
+                p_perf0 = Process(target=run_perf_profiling, args=(svg_file_core_0, log_file_perf, MAX_TIME, 0))
+                p_perf1 = Process(target=run_perf_profiling, args=(svg_file_core_1, log_file_perf, MAX_TIME, 1))
+                p_perf2 = Process(target=run_perf_profiling, args=(svg_file_core_2, log_file_perf, MAX_TIME, 2))
+                p_perf3 = Process(target=run_perf_profiling, args=(svg_file_core_3, log_file_perf, MAX_TIME, 3))
+                p_perf0.start(); p_perf1.start(); p_perf2.start(); p_perf3.start(); p_through.start(); p_power.start()
+                p_perf0.join(); p_perf1.join(); p_perf2.join(); p_perf3.join(); p_through.join(); p_power.join()
 
                 # --- Step 7: Cleanup ---
                 unload_xdp()
