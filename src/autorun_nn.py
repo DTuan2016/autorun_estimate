@@ -16,7 +16,7 @@ import yaml
 parser = argparse.ArgumentParser(description="Automated XDP profiling runner")
 parser.add_argument("--branch", required=True, help="Tên branch (ví dụ: knn_threshold)")
 parser.add_argument("--param", required=True, help="Thông số thuật toán (ví dụ: 200)")
-parser.add_argument("--config", default="../config_pi_qa.yml", help="Đường dẫn file config YAML")
+parser.add_argument("--config", default="../config_pc.yml", help="Đường dẫn file config YAML")
 parser.add_argument("--max-time", type=int, default=120, help="Thời gian chạy mỗi lần (mặc định: 120s)")
 parser.add_argument("--num-runs", type=int, default=5, help="Số lần lặp lại mỗi mức PPS (mặc định: 5)")
 args = parser.parse_args()
@@ -90,6 +90,71 @@ def call_tcpreplay_api(api_url, log_file, speed, duration):
     except Exception as e:
         log('ERROR', f"Failed to call API: {e}")
 
+def read_proc_stat():
+    stats = {}
+    
+    with open("/proc/stat") as f:
+        for line in f:
+            if line.startswith("cpu"):
+                parts = line.split()
+                cpu = parts[0]
+                values = list(map(int, parts[1:]))
+                total = sum(values)
+                idle = values[3] + values[4]
+                stats[cpu] = (total, idle)
+    return stats
+
+def read_energy_uj():
+    path = "/sys/class/powercap/intel-rapl:0/energy_uj"
+    try:
+        with open(path) as f:
+            return int(f.read().strip())
+    except:
+        return None
+    
+def monitor_cpu_power(csv_path, duration, interval=1.0):
+    with open(csv_path, "w", buffering=1) as f:
+        f.write("timestamp,cpu,cpu0,cpu1,cpu2,cpu3,power_w\n")
+        
+        t_start = time.time()
+        prev_stat = read_proc_stat()
+        prev_energy = read_energy_uj()
+        prev_time = time.time()
+        
+        while time.time() - t_start < duration:
+            time.sleep(interval)
+            
+            now_stat = read_proc_stat()
+            now_energy = read_energy_uj()
+            now_time = time.time()
+            
+            row = [f"{now_time:.3f}"]
+            
+            for cpu in ["cpu", "cpu0", "cpu1", "cpu2", "cpu3"]:
+                if cpu in prev_stat and cpu in now_stat:
+                    t1, i1 = prev_stat[cpu]
+                    t2, i2 = now_stat[cpu]
+                    dt = t2 - t1
+                    di = i2 - i1
+                    usage = 100 * (1 - di / dt) if dt > 0 else 0.0
+                    
+                else:
+                    usage = 0.0
+                    
+                row.append(f"{usage:.2f}")
+            
+            if prev_energy is not None and now_energy is not None:
+                power = (now_energy - prev_energy) / 1e6 / (now_time - prev_time)
+            else:
+                power = 0.0
+
+            row.append(f"{power:.3f}")
+            f.write(",".join(row) + "\n")
+
+            prev_stat = now_stat
+            prev_energy = now_energy
+            prev_time = now_time
+
 # --- Run PERF profiling ---
 def run_perf_profiling(svg_file, log_file_path, duration, core_id):
     log('DEBUG', f"Starting perf ({duration}s)...", to_file=False)
@@ -128,7 +193,28 @@ def run_power_server(csv_path, log_file_path, duration):
              log('ERROR', f"[POWER] Completed with non-zero exit code: {proc.returncode}. Check {log_file_path} for errors.", to_file=False)
         else:
             log('INFO', "[POWER] Completed.", to_file=False)
-      
+            
+def stop_remote_traffic(api_url):
+    stop_url = api_url.replace("/run", "/stop")
+    log('DEBUG', f"Stopping remote traffic via {stop_url}")
+    try:
+        resp = requests.post(stop_url, timeout=5)
+
+        if resp.status_code != 200:
+            log('WARN', f"Stop traffic HTTP {resp.status_code}: {resp.text}")
+            return
+
+        # Try JSON, fallback to text
+        try:
+            data = resp.json()
+            log('INFO', f"Stop traffic OK: {data}")
+        except ValueError:
+            log('INFO', f"Stop traffic OK (non-JSON response): {resp.text.strip()}")
+
+    except Exception as e:
+        log('WARN', f"Failed to stop remote traffic: {e}")
+        
+        
 # --- Load XDP and keep running ---
 def load_xdp_program(iface, NN_SCRIPTS, OUT_FILE_NN, MAX_TIME):
     cmd = ["sudo", "python3", NN_SCRIPTS, iface, OUT_FILE_NN, "-S"]
@@ -168,37 +254,48 @@ run_cmd(["sudo", "pkill", "-9", "perf"], "Kill stray perf", check=False)
 run_cmd(["sudo", "pkill", "-f", "../ebpf-classifier/nn-filter/nn_filter_xdp.py"], "Kill stray nn_filter_xdp", check=False)
 run_cmd(["sudo", "pkill", "-f", "../../server.py"], "Kill stray nn_filter_xdp", check=False)
 # --- Main loop ---
-for pps in range(160000, 200001, 10000):
+for pps in range(10000, 200001, 10000):
     for run_idx in range(1, NUM_RUNS + 1):
         log_file_bpf = os.path.join(BPF_DIR, f"log_{branch}_{param}_{pps}_{run_idx}_1_1.txt")
         log_file_perf = os.path.join(PERF_DIR, f"log_{branch}_{param}_{pps}_{run_idx}_1_1.txt")
         log_throughput = os.path.join(THROUGHPUT_DIR, f"{branch}_{param}_{pps}_{run_idx}_1_1.csv")
         log_power = os.path.join(POWER_DIR, f"{branch}_{param}_{pps}_{run_idx}_1_1.txt")
         csv_file_power = os.path.join(POWER_DIR, f"{branch}_{param}_{pps}_{run_idx}_1_1.csv")
-        svg_file_core_0 = f"{branch}_{param}_{pps}_{run_idx}_1_1_0.svg"
-        svg_file_core_1 = f"{branch}_{param}_{pps}_{run_idx}_1_1_1.svg"
-        svg_file_core_2 = f"{branch}_{param}_{pps}_{run_idx}_1_1_2.svg"
-        svg_file_core_3 = f"{branch}_{param}_{pps}_{run_idx}_1_1_3.svg"
+        power_cpu_csv = os.path.join(POWER_DIR, f"cpu_power_{branch}_{param}_{pps}_{run_idx}.csv")
         log_file_lanforge = os.path.join(LANFORGE_DIR, f"log_{branch}_{param}_{pps}_{run_idx}_1_1.txt")
 
         log('HEADER', f"=== PPS={pps}, Run {run_idx}/{NUM_RUNS} ===")
 
         # --- Start processes ---
         log('DEBUG', "Starting all profiling processes...")
+        log('INFO', "Load XDP program into interface")
         p_xdp = Process(target=load_xdp_program, args=(iface, NN_SCRIPTS, log_throughput, MAX_TIME))
-        # p_perf = Process(target=run_perf_profiling, args=(svg_file, log_file_perf, MAX_TIME))
+        #p_xdp.start()
+        log('INFO', "Call API to STOP all tcpreplay running in APP")
+        stop_remote_traffic(api_url)
+        log('INFO', "WAITING 30s......")
+        time.sleep(60)
+        processes = []
         p_tcpreplay = Process(target=call_tcpreplay_api, args=(api_url, log_file_lanforge, pps, MAX_TIME))
         p_power = Process(target=run_power_server, args=(csv_file_power, log_power, MAX_TIME))
-        p_perf0 = Process(target=run_perf_profiling, args=(svg_file_core_0, log_file_perf, MAX_TIME, 0))
-        p_perf1 = Process(target=run_perf_profiling, args=(svg_file_core_1, log_file_perf, MAX_TIME, 1))
-        p_perf2 = Process(target=run_perf_profiling, args=(svg_file_core_2, log_file_perf, MAX_TIME, 2))
-        p_perf3 = Process(target=run_perf_profiling, args=(svg_file_core_3, log_file_perf, MAX_TIME, 3))
-        
+        p_cpu_power = Process(target=monitor_cpu_power, args=(power_cpu_csv, MAX_TIME))
+        # p_through = Process(target=run_throughput_latency, args=(branch, param, pps, run_idx, m, sz, MAX_TIME))
+        processes.append(p_power)
+        processes.append(p_cpu_power)
+        # processes.append(p_through)
+        for core_id in range(4):
+            svg_file_cores = f"{branch}_{param}_{pps}_{run_idx}_{core_id}"
+            p_perf = Process(
+                target=run_perf_profiling,
+                args=(svg_file_cores, log_file_perf, MAX_TIME, core_id)
+            )
+            processes.append(p_perf)
         p_xdp.start()
-        time.sleep(8)  # cho XDP load ổn định
-        p_perf0.start(); p_perf1.start(); p_perf2.start(); p_perf3.start(); p_power.start()
+        time.sleep(5)
         p_tcpreplay.start()
-        log('INFO', f"All profiling processes started, waiting {MAX_TIME}s...")
+        log('INFO', f"All profiling processes started, waiting {MAX_TIME}s...")          
+        for p in processes:
+            p.start()
 
         time.sleep(MAX_TIME)
 
@@ -215,7 +312,9 @@ for pps in range(160000, 200001, 10000):
 
         unload_xdp()
 
-        p_perf0.join(); p_perf1.join(); p_perf2.join(); p_perf3.join(); p_power.join()
+        # p_perf0.join(); p_perf1.join(); p_perf2.join(); p_perf3.join(); p_power.join()
+        for p in processes:
+            p.join()     
         p_tcpreplay.join(timeout=5)
         p_xdp.join(timeout=5)
 

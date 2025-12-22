@@ -491,11 +491,11 @@ def main():
     p.add_argument("--pps-box", type=int, help="Chỉ định PPS khi vẽ box plot")
 
     # output names
-    p.add_argument("--out-thr", default="img/thr.png")
-    p.add_argument("--out-pps", default="img/pps.png")
-    p.add_argument("--out-lat", default="img/latency.png")
-    p.add_argument("--out-power", default="img/power.png")
-    p.add_argument("--out-energy", default="img/energy.png")
+    p.add_argument("--out-thr", default="../img/thr.png")
+    p.add_argument("--out-pps", default="../img/pps.png")
+    p.add_argument("--out-lat", default="../img/latency.png")
+    p.add_argument("--out-power", default="../img/power.png")
+    p.add_argument("--out-energy", default="../img/energy.png")
 
     args = p.parse_args()
 

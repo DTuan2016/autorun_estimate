@@ -4,6 +4,7 @@ import threading
 import yaml
 import os
 import argparse
+import signal
 
 app = Flask(__name__)
 parser = argparse.ArgumentParser()
@@ -58,6 +59,14 @@ def run_tcpreplay():
         "status": "ok",
         "message": f"Started tcpreplay at {speed} PPS (log={log_file})"
     })
+
+@app.post("/stop")
+def stop_tcpreplay():
+    global current_proc
+    if current_proc and current_proc.poll() is None:
+        os.killpg(current_proc.pid, signal.SIGINT)
+        return {"status": "stopped"}
+    return {"status": "no running process"}
 
 @app.route("/run_acc", methods=["POST"])
 def run_acc():

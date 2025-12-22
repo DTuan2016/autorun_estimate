@@ -16,7 +16,7 @@ import yaml
 parser = argparse.ArgumentParser(description="Automated XDP profiling runner")
 parser.add_argument("--branch", required=True, help="Tên branch (ví dụ: knn_threshold)")
 parser.add_argument("--param", required=True, help="Thông số thuật toán (ví dụ: 200)")
-parser.add_argument("--config", default="../../autorun_estimate/config_pi_qa.yml", help="Đường dẫn file config YAML")
+parser.add_argument("--config", default="../../autorun_estimate/config_pc.yml", help="Đường dẫn file config YAML")
 parser.add_argument("--max-time", type=int, default=120, help="Thời gian chạy mỗi lần (mặc định: 120s)")
 parser.add_argument("--num-runs", type=int, default=5, help="Số lần lặp lại mỗi mức PPS (mặc định: 5)")
 args = parser.parse_args()
@@ -98,7 +98,7 @@ def get_prog_id():
     except subprocess.CalledProcessError as e:
         log('ERROR', f"Failed to run bpftool: {e}")
         raise RuntimeError("bpftool failed.")
-    match = re.search(r'^(\d+):\s+(xdp)\s+name\s+xdp_anomaly_detector', bpftool_out, re.MULTILINE)
+    match = re.search(r'^(\d+):\s+(ext)\s+name\s+xdp_anomaly_detector', bpftool_out, re.MULTILINE)
     if not match:
         log('ERROR', "No XDP program named 'xdp_anomaly_detector' found!")
         raise RuntimeError("No XDP program found!")
@@ -144,6 +144,71 @@ def run_bpftool_profiling(prog_id, log_file_path, duration):
                 log('WARN', "[BPF] Forcing SIGKILL...", to_file=False)
                 os.killpg(proc.pid, signal.SIGKILL)
         log('INFO', "[BPF] Profiling completed.", to_file=False)
+        
+def read_proc_stat():
+    stats = {}
+    
+    with open("/proc/stat") as f:
+        for line in f:
+            if line.startswith("cpu"):
+                parts = line.split()
+                cpu = parts[0]
+                values = list(map(int, parts[1:]))
+                total = sum(values)
+                idle = values[3] + values[4]
+                stats[cpu] = (total, idle)
+    return stats
+
+def read_energy_uj():
+    path = "/sys/class/powercap/intel-rapl:0/energy_uj"
+    try:
+        with open(path) as f:
+            return int(f.read().strip())
+    except:
+        return None
+    
+def monitor_cpu_power(csv_path, duration, interval=1.0):
+    with open(csv_path, "w", buffering=1) as f:
+        f.write("timestamp,cpu,cpu0,cpu1,cpu2,cpu3,power_w\n")
+        
+        t_start = time.time()
+        prev_stat = read_proc_stat()
+        prev_energy = read_energy_uj()
+        prev_time = time.time()
+        
+        while time.time() - t_start < duration:
+            time.sleep(interval)
+            
+            now_stat = read_proc_stat()
+            now_energy = read_energy_uj()
+            now_time = time.time()
+            
+            row = [f"{now_time:.3f}"]
+            
+            for cpu in ["cpu", "cpu0", "cpu1", "cpu2", "cpu3"]:
+                if cpu in prev_stat and cpu in now_stat:
+                    t1, i1 = prev_stat[cpu]
+                    t2, i2 = now_stat[cpu]
+                    dt = t2 - t1
+                    di = i2 - i1
+                    usage = 100 * (1 - di / dt) if dt > 0 else 0.0
+                    
+                else:
+                    usage = 0.0
+                    
+                row.append(f"{usage:.2f}")
+            
+            if prev_energy is not None and now_energy is not None:
+                power = (now_energy - prev_energy) / 1e6 / (now_time - prev_time)
+            else:
+                power = 0.0
+
+            row.append(f"{power:.3f}")
+            f.write(",".join(row) + "\n")
+
+            prev_stat = now_stat
+            prev_energy = now_energy
+            prev_time = now_time
 
 def run_perf_profiling(svg_file, log_file_path, duration, core_id):
     log('DEBUG', f"Starting perf ({duration}s)...", to_file=False)
@@ -182,6 +247,26 @@ def run_power_server(csv_path, log_file_path, duration):
              log('ERROR', f"[POWER] Completed with non-zero exit code: {proc.returncode}. Check {log_file_path} for errors.", to_file=False)
         else:
             log('INFO', "[POWER] Completed.", to_file=False)
+
+def stop_remote_traffic(api_url):
+    stop_url = api_url.replace("/run", "/stop")
+    log('DEBUG', f"Stopping remote traffic via {stop_url}")
+    try:
+        resp = requests.post(stop_url, timeout=5)
+
+        if resp.status_code != 200:
+            log('WARN', f"Stop traffic HTTP {resp.status_code}: {resp.text}")
+            return
+
+        # Try JSON, fallback to text
+        try:
+            data = resp.json()
+            log('INFO', f"Stop traffic OK: {data}")
+        except ValueError:
+            log('INFO', f"Stop traffic OK (non-JSON response): {resp.text.strip()}")
+
+    except Exception as e:
+        log('WARN', f"Failed to stop remote traffic: {e}")
 
 def run_throughput_latency(branch, param, pps, run_idx, m, sz, duration):
     """
@@ -240,95 +325,51 @@ run_cmd(
 
 # --- Main loop ---
 if branch == "randforest" :
-    model_params = [10, 20]
+    #model_params = [10, 20]
     # model_params = [20]
-    model_sizes = [8, 16, 32, 64]
-    # model_sizes = [32, 64]
+    #model_sizes = [8, 16, 32, 64]
+    # model_sizes = [64]
+    MODEL_KEYS = [
+        (20, 64),
+    ]
+
     
 elif branch == "quickscore":
     # model_params = [70, 80, 90, 100]
     # model_params = [10, 20, 30, 40, 50, 60]
     # model_sizes = [8, 16, 32, 64]
     # model_sizes = [8, 16, 32]
-    model_params = [20]
-    model_sizes = [64]
+    MODEL_KEYS = [
+        (20, 64),
+        (100, 32),
+    ]
+
     PYTHON_SCRIPS = cfg["xdp_program"]["python_quickXDP"]
 else:
-    model_params = [1]
-    model_sizes = [1]
+    MODEL_KEYS = [
+        (1, 1),
+    ]
+
     
 for pps in range(10000, 200001, 10000):
     for run_idx in range(1, NUM_RUNS + 1):
-        for m in model_params:
-            for sz in model_sizes:
-                model_file = os.path.join(os.path.expanduser(MODEL_RF), f"rf_{m}_{sz}_model.pkl")
+        for m, sz in MODEL_KEYS:
+            # for sz in model_sizes:
+            model_file = os.path.join(os.path.expanduser(MODEL_RF), f"rf_{m}_{sz}_model.pkl")
 
-                log_file_bpf = os.path.join(BPF_DIR, f"log_{branch}_{param}_{pps}_{run_idx}_{m}_{sz}.txt")
-                log_file_perf = os.path.join(PERF_DIR, f"log_{branch}_{param}_{pps}_{run_idx}_{m}_{sz}.txt")
-                svg_file_core_0 = f"{branch}_{param}_{pps}_{run_idx}_{m}_{sz}_0.svg"
-                svg_file_core_1 = f"{branch}_{param}_{pps}_{run_idx}_{m}_{sz}_1.svg"
-                svg_file_core_2 = f"{branch}_{param}_{pps}_{run_idx}_{m}_{sz}_2.svg"
-                svg_file_core_3 = f"{branch}_{param}_{pps}_{run_idx}_{m}_{sz}_3.svg"
-                log_file_lanforge = os.path.join(LANFORGE_DIR, f"log_{branch}_{param}_{pps}_{run_idx}_{m}_{sz}.txt")
-                log_file_power = os.path.join(POWER_DIR, f"log_{branch}_{param}_{pps}_{run_idx}_{m}_{sz}.txt")
-                power_csv = os.path.join(POWER_DIR, f"{branch}_{param}_{pps}_{run_idx}_{m}_{sz}.csv")
-                
-                # log_run_xdp_stats = os.path.join(STATS_DIR, f"log_{branch}_{param}_{pps}_{run_idx}_{m}_{sz}.txt")
+            power_cpu_csv = os.path.join(POWER_DIR, f"cpu_power_{branch}_{param}_{pps}_{run_idx}_{m}_{sz}.csv")
+            log_file_bpf = os.path.join(BPF_DIR, f"log_{branch}_{param}_{pps}_{run_idx}_{m}_{sz}.txt")
+            log_file_perf = os.path.join(PERF_DIR, f"log_{branch}_{param}_{pps}_{run_idx}_{m}_{sz}.txt")
+            log_file_lanforge = os.path.join(LANFORGE_DIR, f"log_{branch}_{param}_{pps}_{run_idx}_{m}_{sz}.txt")
+            log_file_power = os.path.join(POWER_DIR, f"log_{branch}_{param}_{pps}_{run_idx}_{m}_{sz}.txt")
+            power_csv = os.path.join(POWER_DIR, f"{branch}_{param}_{pps}_{run_idx}_{m}_{sz}.csv")
+            
+            # log_run_xdp_stats = os.path.join(STATS_DIR, f"log_{branch}_{param}_{pps}_{run_idx}_{m}_{sz}.txt")
 
-                g_log_file = open(log_file_bpf, "a")
-                log('HEADER', f"=== PPS={pps}, Run {run_idx}/{NUM_RUNS}, Model rf_{m}_{sz} ===")
-                g_log_file.write(f"=== PPS={pps}, RUN={run_idx}, BRANCH={branch}, PARAM={param}, MODEL=rf_{m}_{sz}, TIME={time.strftime('%Y-%m-%d %H:%M:%S')} ===\n")
-                if branch == "base":
-                    log('INFO', f"Building XDP program in {XDP_PROG_DIR}")
-                    run_cmd(["make", "-C", XDP_PROG_DIR], "Build XDP program")
-                    os.chdir(XDP_PROG_DIR1)
-                    
-                    run_cmd([
-                        "sudo", XDP_LOADER, "--dev", iface,
-                        "-S",
-                        "--progname", "xdp_anomaly_detector"
-                    ], "Load XDP program")
-
-                    # --- Step 1: Gọi tcpreplay API ---
-                    call_tcpreplay_api(api_url, log_file_lanforge, pps, MAX_TIME + 5)
-                    # --- Step 2: Chạy perf profiling ---
-                    p_through = Process(target=run_throughput_latency, args=(branch, param, pps, run_idx, m, sz, MAX_TIME))
-                    p_power = Process(target=run_power_server, args=(power_csv, log_file_power, MAX_TIME))
-                    p_perf0 = Process(target=run_perf_profiling, args=(svg_file_core_0, log_file_perf, MAX_TIME, 0))
-                    p_perf1 = Process(target=run_perf_profiling, args=(svg_file_core_1, log_file_perf, MAX_TIME, 1))
-                    p_perf2 = Process(target=run_perf_profiling, args=(svg_file_core_2, log_file_perf, MAX_TIME, 2))
-                    p_perf3 = Process(target=run_perf_profiling, args=(svg_file_core_3, log_file_perf, MAX_TIME, 3))
-                    p_perf0.start(); p_perf1.start(); p_perf2.start(); p_perf3.start(); p_through.start(); p_power.start()
-                    p_perf0.join(); p_perf1.join(); p_perf2.join(); p_perf3.join(); p_through.join(); p_power.join()
-                    # run_perf_profiling(svg_file, log_file_perf, MAX_TIME)
-                    unload_xdp()
-                    run_cmd(["sudo", "rm", "-rf", f"/sys/fs/bpf/{iface}"], "Remove old BPF maps", check=False)
-                    log('INFO', f"[BASE] Completed PPS={pps}, Run={run_idx}")
-                    g_log_file.write(f"=== DONE BASE PPS={pps}, RUN={run_idx}, MODEL=rf_{m}_{sz}, TIME={time.strftime('%Y-%m-%d %H:%M:%S')} ===\n\n")
-                    time.sleep(3)
-                    continue 
-
-                #--- Step 1: Run rf2qs.py ---
-                os.chdir(XDP_PROG_DIR1)
-                log('INFO', f"Đã cd vào {XDP_PROG_DIR1}")
-                log('INFO', f"Running python3 {PYTHON_SCRIPS} --model {model_file}")
-                if branch == "randforest":
-                    run_cmd([
-                        "python3",
-                        PYTHON_SCRIPS,
-                        "--max_tree", str(m),
-                        "--max_leaves", str(sz),
-                        "--iface", iface,
-                        "--model_folder", "../../security_paper/rf",
-                        "--home_folder", HOME_DIR
-                    ], "Run read_model_to_map.py", check=True)
-                    run_cmd(["sudo", "xdp-loader", "unload", iface, "--all"], "Unload", check=True)
-                elif branch == "quickscore":
-                    run_cmd(["python3", PYTHON_SCRIPS, "--model", model_file], "Run rf2qs.py", check=True)
-                else:
-                    run_cmd(["python3", PYTHON_SCRIPS, "--svm_model", "../../security_paper/svm/models/SVM-Linear.pkl", \
-                             "--scaler", "../../security_paper/svm/scalers/scaler_SVM-Linear.pkl"], "Run read_model_to_map.py", check=True)
-                # --- Step 2: Build XDP program ---
+            g_log_file = open(log_file_bpf, "a")
+            log('HEADER', f"=== PPS={pps}, Run {run_idx}/{NUM_RUNS}, Model rf_{m}_{sz} ===")
+            g_log_file.write(f"=== PPS={pps}, RUN={run_idx}, BRANCH={branch}, PARAM={param}, MODEL=rf_{m}_{sz}, TIME={time.strftime('%Y-%m-%d %H:%M:%S')} ===\n")
+            if branch == "base":
                 log('INFO', f"Building XDP program in {XDP_PROG_DIR}")
                 run_cmd(["make", "-C", XDP_PROG_DIR], "Build XDP program")
                 os.chdir(XDP_PROG_DIR1)
@@ -339,34 +380,113 @@ for pps in range(10000, 200001, 10000):
                     "--progname", "xdp_anomaly_detector"
                 ], "Load XDP program")
 
-                # --- Step 4: Get prog ID ---
-                try:
-                    prog_id = get_prog_id()
-                except RuntimeError:
-                    unload_xdp()
-                    g_log_file.close()
-                    continue
-
-                # --- Step 5: Trigger tcpreplay API ---
+                # --- Step 1: Gọi tcpreplay API ---
+                stop_remote_traffic(api_url)
+                time.sleep(5)
+                # call_tcpreplay_api(api_url, log_file_lanforge, pps, MAX_TIME + 5)
+                log('INFO', "Waiting 60 seconds before starting workload...")
+                time.sleep(60)
                 call_tcpreplay_api(api_url, log_file_lanforge, pps, MAX_TIME+5)
-
-                # --- Step 6: Run profiling in parallel ---
-                p_through = Process(target=run_throughput_latency, args=(branch, param, pps, run_idx, m, sz, MAX_TIME))
+                # --- Step 2: Chạy perf profiling ---
+                processes = []
                 p_power = Process(target=run_power_server, args=(power_csv, log_file_power, MAX_TIME))
-                p_perf0 = Process(target=run_perf_profiling, args=(svg_file_core_0, log_file_perf, MAX_TIME, 0))
-                p_perf1 = Process(target=run_perf_profiling, args=(svg_file_core_1, log_file_perf, MAX_TIME, 1))
-                p_perf2 = Process(target=run_perf_profiling, args=(svg_file_core_2, log_file_perf, MAX_TIME, 2))
-                p_perf3 = Process(target=run_perf_profiling, args=(svg_file_core_3, log_file_perf, MAX_TIME, 3))
-                p_perf0.start(); p_perf1.start(); p_perf2.start(); p_perf3.start(); p_through.start(); p_power.start()
-                p_perf0.join(); p_perf1.join(); p_perf2.join(); p_perf3.join(); p_through.join(); p_power.join()
-
-                # --- Step 7: Cleanup ---
+                p_cpu_power = Process(target=monitor_cpu_power, args=(power_cpu_csv, MAX_TIME))
+                p_through = Process(target=run_throughput_latency, args=(branch, param, pps, run_idx, m, sz, MAX_TIME))
+                processes.append(p_power)
+                processes.append(p_cpu_power)
+                processes.append(p_through)
+                for core_id in range(4):
+                    svg_file_cores = f"{branch}_{param}_{pps}_{run_idx}_{m}_{sz}_{core_id}"
+                    p_perf = Process(
+                        target=run_perf_profiling,
+                        args=(svg_file_cores, log_file_perf, MAX_TIME, core_id)
+                    )
+                    processes.append(p_perf)
+                for p in processes:
+                    p.start()
+                    
+                for p in processes:
+                    p.join()                   
+                # run_perf_profiling(svg_file, log_file_perf, MAX_TIME)
                 unload_xdp()
                 run_cmd(["sudo", "rm", "-rf", f"/sys/fs/bpf/{iface}"], "Remove old BPF maps", check=False)
-                log('INFO', f"Completed PPS={pps}, Run={run_idx}, Model rf_{m}_{sz}")
-                g_log_file.write(f"=== DONE PPS={pps}, RUN={run_idx}, MODEL=rf_{m}_{sz}, TIME={time.strftime('%Y-%m-%d %H:%M:%S')} ===\n\n")
-                # g_log_file.close()
+                log('INFO', f"[BASE] Completed PPS={pps}, Run={run_idx}")
+                g_log_file.write(f"=== DONE BASE PPS={pps}, RUN={run_idx}, MODEL=rf_{m}_{sz}, TIME={time.strftime('%Y-%m-%d %H:%M:%S')} ===\n\n")
                 time.sleep(3)
+                continue 
+
+            #--- Step 1: Run rf2qs.py ---
+            os.chdir(XDP_PROG_DIR1)
+            log('INFO', f"Đã cd vào {XDP_PROG_DIR1}")
+            log('INFO', f"Running python3 {PYTHON_SCRIPS} --model {model_file}")
+            if branch == "randforest":
+                run_cmd([
+                    "python3",
+                    PYTHON_SCRIPS,
+                    "--max_tree", str(m),
+                    "--max_leaves", str(sz),
+                    "--iface", iface,
+                    "--model_folder", "../../security_paper/rf",
+                    "--home_folder", "/home/gnb/"
+                ], "Run read_model_to_map.py", check=True)
+                run_cmd(["sudo", "xdp-loader", "unload", iface, "--all"], "Unload", check=True)
+            elif branch == "quickscore":
+                run_cmd(["python3", PYTHON_SCRIPS, "--model", model_file], "Run rf2qs.py", check=True)
+            else:
+                run_cmd(["python3", PYTHON_SCRIPS, "--svm_model", "../../security_paper/svm/models/SVM-Linear.pkl", \
+                            "--scaler", "../../security_paper/svm/scalers/scaler_SVM-Linear.pkl"], "Run read_model_to_map.py", check=True)
+            # --- Step 2: Build XDP program ---
+            log('INFO', f"Building XDP program in {XDP_PROG_DIR}")
+            run_cmd(["make", "-C", XDP_PROG_DIR], "Build XDP program")
+            os.chdir(XDP_PROG_DIR1)
+            
+            run_cmd([
+                "sudo", XDP_LOADER, "--dev", iface,
+                "-S",
+                "--progname", "xdp_anomaly_detector"
+            ], "Load XDP program")
+
+            # --- Step 4: Get prog ID ---
+            try:
+                prog_id = get_prog_id()
+            except RuntimeError:
+                unload_xdp()
+                g_log_file.close()
+                continue
+
+            # --- Step 5: Trigger tcpreplay API ---
+            stop_remote_traffic(api_url)
+            time.sleep(5)
+            log('INFO', "Waiting 60 seconds before starting workload...")
+            time.sleep(60)
+            call_tcpreplay_api(api_url, log_file_lanforge, pps, MAX_TIME+5)
+            # --- Step 6: Run profiling in parallel ---
+            processes = []
+            p_power = Process(target=run_power_server, args=(power_csv, log_file_power, MAX_TIME))
+            p_cpu_power = Process(target=monitor_cpu_power, args=(power_cpu_csv, MAX_TIME))
+            p_through = Process(target=run_throughput_latency, args=(branch, param, pps, run_idx, m, sz, MAX_TIME))
+            processes.append(p_power)
+            processes.append(p_cpu_power)
+            processes.append(p_through)
+            for core_id in range(4):
+                svg_file_cores = f"{branch}_{param}_{pps}_{run_idx}_{m}_{sz}_{core_id}"
+                p_perf = Process(
+                target=run_perf_profiling,
+                args=(svg_file_cores, log_file_perf, MAX_TIME, core_id)
+            )
+            processes.append(p_perf)
+            for p in processes:
+                p.start()
+                
+            for p in processes:
+                p.join()      
+            # --- Step 7: Cleanup ---
+            unload_xdp()
+            run_cmd(["sudo", "rm", "-rf", f"/sys/fs/bpf/{iface}"], "Remove old BPF maps", check=False)
+            log('INFO', f"Completed PPS={pps}, Run={run_idx}, Model rf_{m}_{sz}")
+            g_log_file.write(f"=== DONE PPS={pps}, RUN={run_idx}, MODEL=rf_{m}_{sz}, TIME={time.strftime('%Y-%m-%d %H:%M:%S')} ===\n\n")
+            # g_log_file.close()
+            time.sleep(3)
 
 log('HEADER', "=== All tests completed ===")
 g_system_log.close()
